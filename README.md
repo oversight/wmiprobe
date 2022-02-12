@@ -18,7 +18,7 @@ A Personal Access Token is required to build this Docker image.
 *(Go to GitHub > Settings > Personal access tokens and generate a personal access token with repo scope enabled)*
 
 ```
-docker build --no-cache --build-arg PAT={your_token} .
+docker build -t cesbit/oswmiprobe:v0.1.0 -t cesbit/oswmiprobe:latest . --no-cache --build-arg PAT={your_token}
 ```
 
 ## Issues
@@ -30,6 +30,3 @@ Run the following command in an administrative prompt:
 ```
 sc sdset SCMANAGER D:(A;;CCLCRPRC;;;AU)(A;;CCLCRPWPRC;;;SY)(A;;KA;;;BA)S:(AU;FA;KA;;;WD)(AU;OIIOFA;GA;;;WD)
 ```
-
-
-
