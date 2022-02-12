@@ -30,3 +30,18 @@ Run the following command in an administrative prompt:
 ```
 sc sdset SCMANAGER D:(A;;CCLCRPRC;;;AU)(A;;CCLCRPWPRC;;;SY)(A;;KA;;;BA)S:(AU;FA;KA;;;WD)(AU;OIIOFA;GA;;;WD)
 ```
+
+### Error 0x80041010
+
+To fix error 0x80041010 (Performance Counter Class missing) the following command can be used:
+
+```
+%windir%\system32\wbem\wmiadap.exe /f
+```
+
+
+## WMI info
+
+https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-wmi
+https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-wmio
+https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmi-error-constants
