@@ -6,6 +6,7 @@ import os
 import sys
 import time
 import uuid
+from aiowmi.connection import Connection
 from aiowmi.exceptions import WbemExInvalidClass
 from aiowmi.exceptions import WbemExInvalidNamespace
 from .check import CHECKS
@@ -97,10 +98,25 @@ class Probe:
         check = CHECKS[check_name]
         max_runtime = cls.max_runtime_factor * (check_interval or check.interval)
 
+        try:
+            conn = Connection(ip4, **cred)
+            await conn.connect()
+        except Exception:
+            logging.error(f'unable to connect to {host_uuid} {ip4}')
+            return
+
+        try:
+            service = await conn.negotiate_ntlm()
+        except Exception:
+            logging.error(f'unable to autheticate {host_uuid} {ip4}')
+
+            conn.close()
+            return
+
         t0 = time.time()
         try:
             state_data = await asyncio.wait_for(
-                check.get_data(ip4, **cred),
+                check.get_data(conn, service),
                 timeout=max_runtime
             )
         except asyncio.TimeoutError:
@@ -147,3 +163,6 @@ class Probe:
                     'checkName': check_name,
                     'stateData': state_data
                 })
+        finally:
+            service.close()
+            conn.close()

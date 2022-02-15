@@ -1,6 +1,7 @@
 import logging
 from collections import defaultdict
 from .base import Base
+from .utils import format_list
 
 
 class CheckLoggedOnUsers(Base):
@@ -37,7 +38,7 @@ class CheckLoggedOnUsers(Base):
         itms = [
             {
                 'name': name,
-                'logonIds': ','.join(logon_ids),
+                'logonIds': format_list(logon_ids),
                 'sessionCount': len(logon_ids)
             }
             for name, logon_ids in name_login.items()

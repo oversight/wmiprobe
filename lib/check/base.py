@@ -1,14 +1,15 @@
 import datetime
 import logging
-from aiowmi.connection import Connection
 from aiowmi.exceptions import WbemStopIteration, WbemException
 from aiowmi.query import Query
+from .utils import format_list
 
 
 DTYPS_NOT_NULL = {
-    int,
-    bool,
-    float,
+    int: 0,
+    bool: False,
+    float: 0.,
+    list: '[]',
 }
 
 
@@ -20,15 +21,7 @@ class Base:
     required_services = []
 
     @classmethod
-    async def get_data(cls, address, username, password):
-        try:
-            conn = Connection(address, username, password)
-            await conn.connect()
-            service = await conn.negotiate_ntlm()
-        except Exception:
-            logging.exception('WMI connect error\n')
-            raise
-
+    async def get_data(cls, conn, service):
         wmi_data = []
         try:
             query = Query(cls.qry, namespace=cls.namespace)
@@ -45,14 +38,13 @@ class Base:
                 row = {}
                 for name, prop in props.items():
                     if prop.value is None:
-                        tp = prop.get_type()
-                        row[name] = tp() if tp in DTYPS_NOT_NULL else None
+                        row[name] = DTYPS_NOT_NULL.get(prop.get_type())
                     elif isinstance(prop.value, datetime.datetime):
-                        row[name] = int(prop.value.timestamp())  # TODOK int?
+                        row[name] = prop.value.timestamp()
                     elif isinstance(prop.value, datetime.timedelta):
-                        row[name] = int(prop.value.seconds)  # TODOK int?
+                        row[name] = prop.value.seconds
                     elif isinstance(prop.value, list):
-                        row[name] = ','.join(map(str, prop.value))  # TODOK
+                        row[name] = format_list(prop.value)
                     else:
                         row[name] = prop.value
 
