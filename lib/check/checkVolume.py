@@ -9,10 +9,55 @@ from .valueLookups import STATUS_INFO
 
 class CheckVolume(Base):
 
-    qry = 'SELECT * FROM Win32_volume'
+    qry = (
+        'SELECT '
+        'Name,'
+        'Access,'
+        'Automount,'
+        'Availability,'
+        'BlockSize,'
+        'Capacity,'
+        'Caption,'
+        'Compressed,'
+        'ConfigManagerErrorCode,'
+        'ConfigManagerUserConfig,'
+        'CreationClassName,'
+        'Description,'
+        'DeviceID,'
+        'DirtyBitSet,'
+        'DriveLetter,'
+        'DriveType,'
+        'ErrorCleared,'
+        'ErrorDescription,'
+        'ErrorMethodology,'
+        'FileSystem,'
+        'FreeSpace,'
+        'IndexingEnabled,'
+        'InstallDate,'
+        'Label,'
+        'LastErrorCode,'
+        'MaximumFileNameLength,'
+        'NumberOfBlocks,'
+        'PNPDeviceID,'
+        'PowerManagementCapabilities,'
+        'PowerManagementSupported,'
+        'Purpose,'
+        'QuotasEnabled,'
+        'QuotasIncomplete,'
+        'QuotasRebuilding,'
+        'Status,'
+        # 'StatusInfo'
+        'SystemCreationClassName,'
+        'SystemName,'
+        'SerialNumber,'
+        'SupportsDiskQuotas,'
+        'SupportsFileBasedCompression'
+        ' FROM Win32_Volume'
+    )
     type_name = 'volume'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         free = itm['FreeSpace']
         total = itm['Capacity']
         used = total - free
@@ -54,7 +99,7 @@ class CheckVolume(Base):
             'quotasIncomplete': itm['QuotasIncomplete'],
             'quotasRebuilding': itm['QuotasRebuilding'],
             'status': itm['Status'],
-            'statusInfo': STATUS_INFO.get(itm['StatusInfo']),
+            # 'statusInfo': STATUS_INFO.get(itm['StatusInfo']),
             'systemCreationClassName': itm['SystemCreationClassName'],
             'systemName': itm['SystemName'],
             'serialNumber': itm['SerialNumber'],

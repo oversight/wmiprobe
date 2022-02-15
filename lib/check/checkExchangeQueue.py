@@ -19,7 +19,8 @@ class CheckExchangeQueue(Base):
     type_name = 'exchangeQueue'
     required_services = ['wmi', 'exchange']
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         return {
             'name': itm['Name'],
             'aggregateDeliveryQueueLengthAllQueues': itm['AggregateDeliveryQueueLengthAllQueues'],

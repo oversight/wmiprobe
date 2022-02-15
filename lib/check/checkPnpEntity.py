@@ -7,10 +7,39 @@ from .valueLookups import POW_MAN_CAP
 
 class CheckPnpEntity(Base):
 
-    qry = 'SELECT * FROM Win32_PnPEntity'
+    qry = (
+        'SELECT '
+        'Availability,'
+        'Caption,'
+        'ClassGuid,'
+        'CompatibleID,'
+        'ConfigManagerErrorCode,'
+        'ConfigManagerUserConfig,'
+        'CreationClassName,'
+        'Description,'
+        'DeviceID,'
+        'ErrorCleared,'
+        'ErrorDescription,'
+        'HardwareID,'
+        'InstallDate,'
+        'LastErrorCode,'
+        'Manufacturer,'
+        # 'PNPClass,'
+        'PNPDeviceID,'
+        'PowerManagementCapabilities,'
+        'PowerManagementSupported,'
+        # 'Present,'
+        'Service,'
+        'Status,'
+        'StatusInfo,'
+        'SystemCreationClassName,'
+        'SystemName'
+        ' FROM Win32_PnPEntity'
+    )
     type_name = 'hardware'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         return {
             'name': itm['PNPDeviceID'],
             'availability': AVAILABILITY_LU.get(itm['Availability']),
@@ -28,11 +57,11 @@ class CheckPnpEntity(Base):
             'installDate': itm['InstallDate'],
             'lastErrorCode': itm['LastErrorCode'],
             'manufacturer': itm['Manufacturer'],
-            'pNPClass': itm['PNPClass'],
+            # 'pNPClass': itm['PNPClass'],
             'pNPDeviceID': itm['PNPDeviceID'],
             'powerManagementCapabilities': POW_MAN_CAP.get(itm['PowerManagementCapabilities']),
             'powerManagementSupported': itm['PowerManagementSupported'],
-            'present': itm['Present'],
+            # 'present': itm['Present'],
             'service': itm['Service'],
             'status': itm['Status'],
             'statusInfo': STATUS_INFO.get(itm['StatusInfo']),

@@ -6,7 +6,8 @@ class CheckMemory(Base):
     qry = 'SELECT Name, Caption, FreePhysicalMemory, TotalVisibleMemorySize FROM Win32_OperatingSystem'
     type_name = 'memory'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         free = itm['FreePhysicalMemory']
         total = itm['TotalVisibleMemorySize']
         used = total - free

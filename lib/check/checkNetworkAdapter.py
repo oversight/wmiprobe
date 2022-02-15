@@ -6,11 +6,52 @@ from .valueLookups import AVAILABILITY_LU
 
 class CheckNetworkAdapter(Base):
 
-    qry = 'SELECT * FROM Win32_NetworkAdapter'
+    qry = (
+        'SELECT '
+        'AdapterType,'
+        'AutoSense,'
+        'Availability,'
+        'Caption,'
+        'ConfigManagerErrorCode,'
+        'ConfigManagerUserConfig,'
+        'CreationClassName,'
+        'Description,'
+        'DeviceID,'
+        'ErrorCleared,'
+        'ErrorDescription,'
+        'GUID,'
+        'Index,'
+        'InstallDate,'
+        'Installed,'
+        'InterfaceIndex,'
+        'LastErrorCode,'
+        'MACAddress,'
+        'Manufacturer,'
+        'MaxNumberControlled,'
+        'MaxSpeed,'
+        'NetConnectionID,'
+        'NetConnectionStatus,'
+        'NetEnabled,'
+        'NetworkAddresses,'
+        'PermanentAddress,'
+        'PhysicalAdapter,'
+        'PNPDeviceID,'
+        'PowerManagementSupported,'
+        'ProductName,'
+        'ServiceName,'
+        'Speed,'
+        'Status,'
+        'StatusInfo,'
+        'SystemCreationClassName,'
+        'SystemName,'
+        'TimeOfLastReset'
+        ' FROM Win32_NetworkAdapter'
+    )
     type_name = 'adapter'
-    defaultCheckInterval = 2 * 60 * 60
+    interval = 7200
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         return {
             'name': itm['PNPDeviceID'],
             'adapterType': itm['AdapterType'],

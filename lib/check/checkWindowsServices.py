@@ -6,7 +6,8 @@ class CheckWindowsServices(Base):
     qry = 'SELECT Caption, DesktopInteract, ExitCode, PathName, ServiceSpecificExitCode, ServiceType, State, Status, Name, DisplayName, Description, ProcessId, StartMode, StartName, Started FROM Win32_Service'
     type_name = 'services'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         return {
             'name': itm['Name'],
             'displayName': itm['DisplayName'],

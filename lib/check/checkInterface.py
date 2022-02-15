@@ -6,7 +6,8 @@ class CheckInterface(Base):
     qry = 'SELECT BytesReceivedPersec, BytesSentPersec, CurrentBandwidth, Name, packetsReceivedPersec, packetsSentPersec, PacketsOutboundDiscarded, PacketsOutboundErrors, PacketsReceivedDiscarded, PacketsReceivedErrors, OutputQueueLength FROM Win32_PerfFormattedData_Tcpip_NetworkInterface'
     type_name = 'interface'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         return {
             'name': itm['Name'],
             'BytesReceivedPersec': itm['BytesReceivedPersec'],

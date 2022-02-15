@@ -19,9 +19,10 @@ class CheckInstalledSoftware(Base):
           'Language, LocalPackage, Name, PackageCache, PackageCode, PackageName, ProductID, RegCompany, RegOwner, ' \
           'SKUNumber, Transforms, URLInfoAbout, URLUpdateInfo, Vendor, Version FROM Win32_Product'
     type_name = 'win32product'
-    defaultCheckInterval = 11 * 3600
+    interval = 39600
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         try:
             language_number = int(itm['Language'])
             language_name = LANGUAGE_NAMES.get(language_number, language_number)

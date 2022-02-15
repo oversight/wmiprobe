@@ -4,12 +4,6 @@ from .base import Base
 NON_SUMMABLES = {
     'description',
     'creatingProcessID',
-    'frequency_Object',
-    'frequency_PerfTime',
-    'frequency_Sys100NS',
-    'timestamp_Object',
-    'timestamp_PerfTime',
-    'timestamp_Sys100NS',
     'IdProcess',
     'priorityBase',
     'name',
@@ -21,18 +15,48 @@ NON_SUMMABLES = {
 
 class CheckProcess(Base):
 
-    qry = 'SELECT * FROM Win32_PerfFormattedData_PerfProc_Process'
+    qry = (
+        'SELECT '
+        'Name,'
+        'Description,'
+        'CreatingProcessID,'
+        'ElapsedTime,'
+        'HandleCount,'
+        'IDProcess,'
+        'IODataBytesPersec,'
+        'IODataOperationsPersec,'
+        'IOOtherBytesPersec,'
+        'IOOtherOperationsPersec,'
+        'IOReadBytesPersec,'
+        'IOReadOperationsPersec,'
+        'IOWriteBytesPersec,'
+        'IOWriteOperationsPersec,'
+        'PageFaultsPersec,'
+        'PageFileBytes,'
+        'PageFileBytesPeak,'
+        'PercentPrivilegedTime,'
+        'PercentProcessorTime,'
+        'PercentUserTime,'
+        'PoolNonpagedBytes,'
+        'PoolPagedBytes,'
+        'PriorityBase,'
+        'PrivateBytes,'
+        'ThreadCount,'
+        'VirtualBytes,'
+        'VirtualBytesPeak,'
+        'WorkingSet,'
+        'WorkingSetPeak'
+        ' FROM Win32_PerfFormattedData_PerfProc_Process'
+    )
     type_name = 'process'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         return {
             'name': itm['Name'],
             'description': itm['Description'],
             'creatingProcessID': itm['CreatingProcessID'],
             'elapsedTime': itm['ElapsedTime'],
-            'frequency_Object': itm['Frequency_Object'],
-            'frequency_PerfTime': itm['Frequency_PerfTime'],
-            'frequency_Sys100NS': itm['Frequency_Sys100NS'],
             'handleCount': itm['HandleCount'],
             'IdProcess': itm['IDProcess'],
             'IoDataBytesPersec': itm['IODataBytesPersec'],
@@ -54,17 +78,15 @@ class CheckProcess(Base):
             'priorityBase': itm['PriorityBase'],
             'privateBytes': itm['PrivateBytes'],
             'threadCount': itm['ThreadCount'],
-            'timestamp_Object': itm['Timestamp_Object'],
-            'timestamp_PerfTime': itm['Timestamp_PerfTime'],
-            'timestamp_Sys100NS': itm['Timestamp_Sys100NS'],
             'virtualBytes': itm['VirtualBytes'],
             'virtualBytesPeak': itm['VirtualBytesPeak'],
             'workingSet': itm['WorkingSet'],
             'workingSetPeak': itm['WorkingSetPeak'],
         }
 
-    def iterate_results(self, wmi_data):
-        itms = self.on_items(wmi_data)
+    @classmethod
+    def iterate_results(cls, wmi_data):
+        itms = cls.on_items(wmi_data)
         total_itm = itms.pop('_Total')
 
         hash_names = [name for name in itms if '#' in name]
@@ -88,6 +110,6 @@ class CheckProcess(Base):
                 itm['privateBytesAvg'] = itm['privateBytes']
 
         return {
-            self.type_name: itms,
-            self.type_name + '_Total': total_itm,
+            cls.type_name: itms,
+            cls.type_name + '_Total': total_itm,
         }

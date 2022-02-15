@@ -6,7 +6,8 @@ class CheckPageFile(Base):
     qry = 'SELECT Name, AllocatedBaseSize, CurrentUsage FROM Win32_PageFileUsage'
     type_name = 'pageFile'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         total = itm['AllocatedBaseSize'] * 1024 * 1024
         used = itm['CurrentUsage'] * 1024 * 1024
         free = total - used
@@ -20,8 +21,9 @@ class CheckPageFile(Base):
             'percentUsed': percentage
         }
 
-    def iterate_results(self, wmi_data):
-        itms = self.on_items(wmi_data)
+    @classmethod
+    def iterate_results(cls, wmi_data):
+        itms = cls.on_items(wmi_data)
         total_itm = {
             'name': '_Total',
             'bytesTotal': 0,
@@ -38,6 +40,6 @@ class CheckPageFile(Base):
         used = total_itm['bytesUsed']
         total_itm['percentUsed'] = 100. * used / total if total else 0.
         return {
-            self.type_name: itms,
-            self.type_name + '_Total': [total_itm],
+            cls.type_name: itms,
+            cls.type_name + '_Total': [total_itm],
         }

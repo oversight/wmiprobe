@@ -6,7 +6,8 @@ class CheckWindowsNTDomain(Base):
     qry = 'SELECT DomainName, DnsForestName, DomainControllerName FROM Win32_NTDomain WHERE DomainName IS NOT NULL'
     type_name = 'domain'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         return {
             'name': itm['DomainName'],
             'dnsForest': itm['DnsForestName'],

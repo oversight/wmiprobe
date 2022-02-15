@@ -4,10 +4,11 @@ import time
 
 
 class CheckSystemTime(Base):
-    qry = 'SELECT * FROM Win32_UTCTime'
+    qry = 'SELECT Year, Month, Day, Hour, Minute, Second FROM Win32_UTCTime'
     type_name = 'system'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         remote_ts = datetime.datetime(
             itm['Year'], itm['Month'], itm['Day'], itm['Hour'],
             itm['Minute'], itm['Second'],

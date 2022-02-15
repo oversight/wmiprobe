@@ -11,11 +11,12 @@ THERMAL_LEVEL_LU = {
 
 class CheckNvidiaGpuTemperature(Base):
 
-    qry = 'SELECT * FROM ThermalProbe'
+    qry = 'SELECT id, handle, temperature, thermalLevel, verClass, defaultMinTemperature, defaultMaxTemperature, type  FROM ThermalProbe'
     type_name = 'gpu'
     namespace = 'root/cimv2/nv'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         return {
             'name': itm['id'],
             'handle': itm['handle'],  # "1",

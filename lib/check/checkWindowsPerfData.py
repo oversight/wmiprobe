@@ -3,10 +3,31 @@ from .base import Base
 
 class CheckWindowsPerfData(Base):
 
-    qry = 'SELECT * FROM Win32_PerfFormattedData_PerfOS_Processor'
+    qry = (
+        'SELECT '
+        'Name,'
+        'C1TransitionsPersec,'
+        'C2TransitionsPersec,'
+        'C3TransitionsPersec,'
+        'DPCRate,'
+        'DPCsQueuedPersec,'
+        'InterruptsPersec,'
+        'PercentC1Time,'
+        'PercentC2Time,'
+        'PercentC3Time,'
+        'PercentDPCTime,'
+        'PercentIdleTime,'
+        'PercentInterruptTime,'
+        'PercentPrivilegedTime,'
+        'PercentProcessorTime,'
+        'PercentUserTime,'
+        'Description'
+        ' FROM Win32_PerfFormattedData_PerfOS_Processor'
+    )
     type_name = 'cpu'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         return {
             'name': itm['Name'],
             'C1TransitionsPerSec': itm['C1TransitionsPersec'],
@@ -24,9 +45,5 @@ class CheckWindowsPerfData(Base):
             'PercentPrivilegedTime': itm['PercentPrivilegedTime'],
             'PercentProcessorTime': itm['PercentProcessorTime'],
             'PercentUserTime': itm['PercentUserTime'],
-            'Frequency_PerfTime': itm['Frequency_PerfTime'],
-            'Frequency_Sys100NS': itm['Frequency_Sys100NS'],
-            'Timestamp_Sys100NS': itm['Timestamp_Sys100NS'],
             'Description': itm['Description'],
-            'Timestamp_PerfTime': itm['Timestamp_PerfTime'],
         }

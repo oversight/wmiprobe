@@ -10,7 +10,8 @@ class CheckOsMemory(Base):
     )
     type_name = 'perfOSMemory'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         return {
             'name': 'OSMemory',
             'commitLimit': itm['CommitLimit'],

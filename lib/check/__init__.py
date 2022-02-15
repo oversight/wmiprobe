@@ -27,11 +27,11 @@ from .checkWindowsServices import CheckWindowsServices
 
 
 CHECKS = {
-    # 'CheckCitrixLogonTimings': CheckCitrixLogonTimings,
+    'CheckCitrixLogonTimings': CheckCitrixLogonTimings,
     'CheckDiskIo': CheckDiskIo,
     'CheckDiskQueueLength': CheckDiskQueueLength,
-    # 'CheckExchangeQueue': CheckExchangeQueue,
-    # 'CheckICAlatency': CheckICAlatency,
+    'CheckExchangeQueue': CheckExchangeQueue,
+    'CheckICAlatency': CheckICAlatency,
     'CheckInstalledSoftware': CheckInstalledSoftware,
     'CheckInterface': CheckInterface,
     'CheckIp4RouteTable': CheckIp4RouteTable,
@@ -51,6 +51,6 @@ CHECKS = {
     'CheckWindowsNTEventLog': CheckWindowsNTEventLog,
     'CheckWindowsPerfData': CheckWindowsPerfData,
     'CheckWindowsServices': CheckWindowsServices,
-    # 'CheckNvidiaGpu': CheckNvidiaGpu,
-    # 'CheckNvidiaGpuTemperature': CheckNvidiaGpuTemperature
+    'CheckNvidiaGpu': CheckNvidiaGpu,
+    'CheckNvidiaGpuTemperature': CheckNvidiaGpuTemperature
 }

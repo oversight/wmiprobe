@@ -6,6 +6,8 @@ import os
 import sys
 import time
 import uuid
+from aiowmi.exceptions import WbemExInvalidClass
+from aiowmi.exceptions import WbemExInvalidNamespace
 from .check import CHECKS
 from .credentials import CREDENTIALS, load_credentials
 from .version import __version__
@@ -94,12 +96,11 @@ class Probe:
 
         check = CHECKS[check_name]
         max_runtime = cls.max_runtime_factor * (check_interval or check.interval)
-        conn = None
 
         t0 = time.time()
         try:
             state_data = await asyncio.wait_for(
-                check.get_data(conn),
+                check.get_data(ip4, **cred),
                 timeout=max_runtime
             )
         except asyncio.TimeoutError:
@@ -116,6 +117,10 @@ class Probe:
                     'message': message,
                     'framework': framework,
                 })
+        except (WbemExInvalidClass, WbemExInvalidNamespace):
+            # ignore invalid class and namespace errors
+            # for citrix, exchange and nvidia checks
+            pass
         except Exception as e:
             logging.warning(f'on_run_check {host_uuid} {check_name} {e}')
             framework = {'timestamp': t0, 'runtime': time.time() - t0}

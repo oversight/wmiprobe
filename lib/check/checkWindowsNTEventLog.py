@@ -6,7 +6,8 @@ class CheckWindowsNTEventLog(Base):
     qry = 'SELECT Archive, Compressed, Encrypted, EncryptionMethod, FileName, FileSize, LogfileName, MaxFileSize, Name, NumberOfRecords, OverWritePolicy, Status, Writeable, sources FROM Win32_NTEventlogFile'
     type_name = 'eventLog'
 
-    def on_item(self, itm):
+    @staticmethod
+    def on_item(itm):
         return {
             'name': itm['Name'],
             'archive': itm['Archive'],
