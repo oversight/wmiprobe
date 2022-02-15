@@ -25,7 +25,6 @@ class Base:
             conn = Connection(address, username, password)
             await conn.connect()
             service = await conn.negotiate_ntlm()
-            await conn.login_ntlm(service)
         except Exception:
             logging.exception('WMI connect error\n')
             raise
