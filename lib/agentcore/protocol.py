@@ -7,10 +7,12 @@ from .. import Probe
 class Protocol(asyncio.Protocol):
 
     PROTO_MAP = {
-        'echoRequest': lambda protocol, data: protocol.send({'type': 'echoResponse'}),
+        'echoRequest': lambda protocol, data:
+            protocol.send({'type': 'echoResponse'}),
         'echoResponse': lambda protocol, data: None,
         'customerUuid': lambda protocol, data: Probe.on_customer_uuid(data),
-        'runCheck': lambda protocol, data: asyncio.ensure_future(Probe.on_run_check(data))
+        'runCheck': lambda protocol, data:
+            asyncio.ensure_future(Probe.on_run_check(data))
     }
 
     def __init__(self, on_connection_made, on_connection_lost):
@@ -40,11 +42,12 @@ class Protocol(asyncio.Protocol):
             if not msg:
                 continue
             loaded = json.loads(msg, encoding='utf-8')
-            if 'type' not in loaded:
+            tp = loaded.get('type')
+            if tp is None:
                 logging.warning('invalid message')
 
-            elif loaded['type'] not in self.PROTO_MAP:
-                logging.warning('unsupported message type: {type}'.format_map(loaded))
+            elif tp not in self.PROTO_MAP:
+                logging.warning(f'unsupported message type: {tp}')
 
             else:
                 self.PROTO_MAP[loaded['type']](self, loaded)
