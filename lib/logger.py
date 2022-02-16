@@ -27,8 +27,9 @@ def setup_logger(args):
     if args.log_colorized:
         # setup colorized formatter
         formatter = colorlog.ColoredFormatter(
-            fmt='%(log_color)s[%(levelname)1.1s %(asctime)s %(module)s' +
-                ':%(lineno)d]%(reset)s %(message)s',
+            fmt=(
+                '%(log_color)s[%(levelname)1.1s %(asctime)s %(module)s'
+                ':%(lineno)d]%(reset)s %(message)s'),
             datefmt=_LOG_DATE_FMT,
             reset=True,
             log_colors={
@@ -42,8 +43,9 @@ def setup_logger(args):
     else:
         # setup formatter without using colors
         formatter = logging.Formatter(
-            fmt='[%(levelname)1.1s %(asctime)s %(module)s:%(lineno)d] ' +
-                '%(message)s',
+            fmt=(
+                '[%(levelname)1.1s %(asctime)s %(module)s:%(lineno)d] '
+                '%(message)s'),
             datefmt=_LOG_DATE_FMT,
             style='%')
 
