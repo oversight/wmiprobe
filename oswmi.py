@@ -6,9 +6,10 @@ from lib.agentcore.client import AgentCoreClient
 from lib.config import CONFIG
 from lib.logger import setup_logger
 
-
-AGENTCORE_IP = os.getenv('OS_AGENTCORE_IP', CONFIG.get('agentCoreIp', 'localhost'))
-AGENTCORE_PORT = os.getenv('OS_AGENTCORE_PORT', CONFIG.get('agentCorePort', 7211))
+AGENTCORE_IP = os.getenv(
+    'OS_AGENTCORE_IP', CONFIG.get('agentCoreIp', 'localhost'))
+AGENTCORE_PORT = os.getenv(
+    'OS_AGENTCORE_PORT', CONFIG.get('agentCorePort', 7211))
 
 
 if __name__ == '__main__':
