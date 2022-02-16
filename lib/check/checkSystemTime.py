@@ -12,6 +12,7 @@ class CheckSystemTime(Base):
         remote_ts = datetime.datetime(
             itm['Year'], itm['Month'], itm['Day'], itm['Hour'],
             itm['Minute'], itm['Second'],
+            tzinfo=datetime.timezone.utc
         ).timestamp()
         ts = time.time()
         diff = abs(remote_ts - ts)

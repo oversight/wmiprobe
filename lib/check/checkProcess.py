@@ -111,5 +111,5 @@ class CheckProcess(Base):
 
         return {
             cls.type_name: itms,
-            cls.type_name + '_Total': total_itm,
+            cls.type_name + '_Total': [total_itm],
         }
