@@ -37,7 +37,17 @@ WATT_FACTOR = 1000. * 1000. * 100.
 
 class CheckNvidiaGpu(Base):
 
-    qry = 'SELECT uname, archName, coreCount, count, deviceInfo, gpuCoreClockCurrent, handle, id, memoryBusWidth, memoryClockCurrent, memorySizeAvailable, memorySizePhysical, memorySizeVirtual, memoryType, nvapiId, ordinal, pcieDownstreamWidth, pcieGpu, percentGpuMemoryUsage, percentGpuUsage, power, powerSampleCount, powerSamplingPeriod, productName, productType, ver, verVBIOS, videoCodec FROM Gpu'
+    qry = (
+        'SELECT '
+        'uname, archName, coreCount, count, deviceInfo, gpuCoreClockCurrent, '
+        'handle, id, memoryBusWidth, memoryClockCurrent, memorySizeAvailable, '
+        'memorySizePhysical, memorySizeVirtual, memoryType, nvapiId, ordinal, '
+        'pcieDownstreamWidth, pcieGpu, percentGpuMemoryUsage, percentGpuUsage, '
+        'power, powerSampleCount, powerSamplingPeriod, productName, '
+        'productType, ver, verVBIOS, videoCodec '
+        'FROM Gpu'
+    )
+
     type_name = 'gpu'
     namespace = 'root/cimv2/nv'
 
