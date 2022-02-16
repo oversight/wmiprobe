@@ -18,7 +18,7 @@ A Personal Access Token is required to build this Docker image.
 *(Go to GitHub > Settings > Personal access tokens and generate a personal access token with repo scope enabled)*
 
 ```
-docker build -t cesbit/oswmiprobe:v0.1.0 -t cesbit/oswmiprobe:latest . --no-cache --build-arg PAT={your_token}
+docker build -t oswmiprobe . --no-cache --build-arg PAT={your_token}
 ```
 
 ## Issues
@@ -42,6 +42,5 @@ To fix error 0x80041010 (Performance Counter Class missing) the following comman
 
 ## WMI info
 
-https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-wmi
-https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-wmio
-https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmi-error-constants
+- https://docs.microsoft.com/en-us/openspecs/windows_protocols/
+
