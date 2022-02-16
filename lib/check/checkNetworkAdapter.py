@@ -6,47 +6,18 @@ from .valueLookups import AVAILABILITY_LU
 
 class CheckNetworkAdapter(Base):
 
-    qry = (
-        'SELECT '
-        'AdapterType,'
-        'AutoSense,'
-        'Availability,'
-        'Caption,'
-        'ConfigManagerErrorCode,'
-        'ConfigManagerUserConfig,'
-        'CreationClassName,'
-        'Description,'
-        'DeviceID,'
-        'ErrorCleared,'
-        'ErrorDescription,'
-        'GUID,'
-        'Index,'
-        'InstallDate,'
-        'Installed,'
-        'InterfaceIndex,'
-        'LastErrorCode,'
-        'MACAddress,'
-        'Manufacturer,'
-        'MaxNumberControlled,'
-        'MaxSpeed,'
-        'NetConnectionID,'
-        'NetConnectionStatus,'
-        'NetEnabled,'
-        'NetworkAddresses,'
-        'PermanentAddress,'
-        'PhysicalAdapter,'
-        'PNPDeviceID,'
-        'PowerManagementSupported,'
-        'ProductName,'
-        'ServiceName,'
-        'Speed,'
-        'Status,'
-        'StatusInfo,'
-        'SystemCreationClassName,'
-        'SystemName,'
-        'TimeOfLastReset'
-        ' FROM Win32_NetworkAdapter'
-    )
+    qry = '''
+    SELECT
+    AdapterType, AutoSense, Availability, Caption, ConfigManagerErrorCode,
+    ConfigManagerUserConfig, CreationClassName, Description, DeviceID,
+    ErrorCleared, ErrorDescription, GUID, Index, InstallDate, Installed,
+    InterfaceIndex, LastErrorCode, MACAddress, Manufacturer,
+    MaxNumberControlled, MaxSpeed, NetConnectionID, NetConnectionStatus,
+    NetEnabled, NetworkAddresses, PermanentAddress, PhysicalAdapter,
+    PNPDeviceID, PowerManagementSupported, ProductName, ServiceName, Speed,
+    Status, StatusInfo, SystemCreationClassName, SystemName, TimeOfLastReset
+    FROM Win32_NetworkAdapter
+    '''
     type_name = 'adapter'
     interval = 7200
 
@@ -58,7 +29,8 @@ class CheckNetworkAdapter(Base):
             'autoSense': itm['AutoSense'],
             'availability': AVAILABILITY_LU.get(itm['Availability']),
             'caption': itm['Caption'],
-            'configManagerErrorCode': CONFIG_MAN_ERR_CODE.get(itm['ConfigManagerErrorCode']),
+            'configManagerErrorCode':
+                CONFIG_MAN_ERR_CODE.get(itm['ConfigManagerErrorCode']),
             'configManagerUserConfig': itm['ConfigManagerUserConfig'],
             'creationClassName': itm['CreationClassName'],
             'description': itm['Description'],

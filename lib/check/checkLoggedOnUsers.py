@@ -6,7 +6,11 @@ from .utils import format_list
 
 class CheckLoggedOnUsers(Base):
 
-    qry = 'SELECT Antecedent, Dependent FROM Win32_LoggedOnUser'
+    qry = '''
+    SELECT
+    Antecedent, Dependent
+    FROM Win32_LoggedOnUser
+    '''
     type_name = 'users'
 
     @staticmethod

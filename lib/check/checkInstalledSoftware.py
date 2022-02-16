@@ -15,22 +15,29 @@ INSTALL_STATES_LU = {
 
 class CheckInstalledSoftware(Base):
 
-    qry = 'SELECT Caption, Description, InstallDate, InstallDate2, InstallLocation, InstallSource, InstallState, ' \
-          'Language, LocalPackage, Name, PackageCache, PackageCode, PackageName, ProductID, RegCompany, RegOwner, ' \
-          'SKUNumber, Transforms, URLInfoAbout, URLUpdateInfo, Vendor, Version FROM Win32_Product'
+    qry = '''
+    SELECT
+    Caption, Description, InstallDate, InstallDate2, InstallLocation,
+    InstallSource, InstallState, Language, LocalPackage, Name, PackageCache,
+    PackageCode, PackageName, ProductID, RegCompany, RegOwner, SKUNumber,
+    Transforms, URLInfoAbout, URLUpdateInfo, Vendor, Version
+    FROM Win32_Product
+    '''
     type_name = 'win32product'
     interval = 39600
 
     @staticmethod
     def on_item(itm):
         try:
-            language_number = int(itm['Language'])
-            language_name = LANGUAGE_NAMES.get(language_number, language_number)
+            language = int(itm['Language'])
+            language_name = LANGUAGE_NAMES.get(language, language)
         except Exception:
             language_name = None
-        install_date = itm['InstallDate2'] or parse_wmi_date(itm['InstallDate'])
+        install_date = itm['InstallDate2'] or \
+            parse_wmi_date(itm['InstallDate'])
         install_state_number = itm['InstallState']
-        install_state = INSTALL_STATES_LU.get(install_state_number, install_state_number)
+        install_state = INSTALL_STATES_LU.get(
+            install_state_number, install_state_number)
 
         return {
             'name': itm['PackageCode'],

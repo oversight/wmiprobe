@@ -37,16 +37,16 @@ WATT_FACTOR = 1000. * 1000. * 100.
 
 class CheckNvidiaGpu(Base):
 
-    qry = (
-        'SELECT '
-        'uname, archName, coreCount, count, deviceInfo, gpuCoreClockCurrent, '
-        'handle, id, memoryBusWidth, memoryClockCurrent, memorySizeAvailable, '
-        'memorySizePhysical, memorySizeVirtual, memoryType, nvapiId, ordinal, '
-        'pcieDownstreamWidth, pcieGpu, percentGpuMemoryUsage, percentGpuUsage, '
-        'power, powerSampleCount, powerSamplingPeriod, productName, '
-        'productType, ver, verVBIOS, videoCodec '
-        'FROM Gpu'
-    )
+    qry = '''
+    SELECT
+    uname, archName, coreCount, count, deviceInfo, gpuCoreClockCurrent,
+    handle, id, memoryBusWidth, memoryClockCurrent, memorySizeAvailable,
+    memorySizePhysical, memorySizeVirtual, memoryType, nvapiId, ordinal,
+    pcieDownstreamWidth, pcieGpu, percentGpuMemoryUsage, percentGpuUsage,
+    power, powerSampleCount, powerSamplingPeriod, productName,
+    productType, ver, verVBIOS, videoCodec
+    FROM Gpu
+    '''
 
     type_name = 'gpu'
     namespace = 'root/cimv2/nv'
@@ -60,33 +60,33 @@ class CheckNvidiaGpu(Base):
         mem_freq = mem_freq if mem_freq != -1 else None
 
         return {
-            'name': itm['uname'],  # {str} 'Quadro K620'
-            'archName': itm['archName'],  # {str} 'Maxwell'
-            'coreCount': itm['coreCount'],  # {str} '384'
-            'count': itm['count'],  # {str} '1'
-            'deviceInfo': itm['deviceInfo'],  # {str} ''
-            'gpuCoreClockCurrent': gpu_freq,  # {str} '-1'
-            'handle': itm['handle'],  # {str} '33024'
-            'id': itm['id'],  # {str} '1'
-            'memoryBusWidth': itm['memoryBusWidth'],  # {str} '128'
-            'memoryClockCurrent': mem_freq,  # {str} '900'
-            'memorySizeAvailable': itm['memorySizeAvailable'] * MB_FACTOR,  # {str} '108'
-            'memorySizePhysical': itm['memorySizePhysical'] * MB_FACTOR,  # {str} '2048'
-            'memorySizeVirtual': itm['memorySizeVirtual'] * MB_FACTOR,  # {str} '67230'
-            'memoryType': MEM_TYPE_LU.get(itm['memoryType'], '???'),  # {str} '7'
-            'nvapiId': itm['nvapiId'],  # {str} '33024'
-            'ordinal': itm['ordinal'],  # {str} '1'
-            'pcieDownstreamWidth': itm['pcieDownstreamWidth'],  # {str} '16'
-            'pcieGpu': itm['pcieGpu'],  # {str} 'Unsupported'
-            'percentGpuMemoryUsage': itm['percentGpuMemoryUsage'],  # {str} '94'
-            'percentGpuUsage': itm['percentGpuUsage'],  # {str} '21'
-            'power': itm['power'] / WATT_FACTOR,  # {str} '1085731242.000000'
-            'powerSampleCount': itm['powerSampleCount'],  # {str} '3'
-            'powerSamplingPeriod': itm['powerSamplingPeriod'] / 1000.,  # {str} '33'
-            'productName': itm['productName'],  # {str} 'Quadro K620'
-            'productType': PROD_TYPE_LU.get(itm['productType'], '???'),  # {str} '2'
-            'uname': itm['uname'],  # {str} 'Quadro K620'
-            'ver': itm['ver'],  # {str} 'Unsupported'
-            'verVBIOS': itm['verVBIOS'],  # {str} 'Unsupported'
-            'videoCodec': itm['videoCodec'],  # {str} 'Unsupported'
+            'name': itm['uname'],
+            'archName': itm['archName'],
+            'coreCount': itm['coreCount'],
+            'count': itm['count'],
+            'deviceInfo': itm['deviceInfo'],
+            'gpuCoreClockCurrent': gpu_freq,
+            'handle': itm['handle'],
+            'id': itm['id'],
+            'memoryBusWidth': itm['memoryBusWidth'],
+            'memoryClockCurrent': mem_freq,
+            'memorySizeAvailable': itm['memorySizeAvailable'] * MB_FACTOR,
+            'memorySizePhysical': itm['memorySizePhysical'] * MB_FACTOR,
+            'memorySizeVirtual': itm['memorySizeVirtual'] * MB_FACTOR,
+            'memoryType': MEM_TYPE_LU.get(itm['memoryType'], '???'),
+            'nvapiId': itm['nvapiId'],
+            'ordinal': itm['ordinal'],
+            'pcieDownstreamWidth': itm['pcieDownstreamWidth'],
+            'pcieGpu': itm['pcieGpu'],
+            'percentGpuMemoryUsage': itm['percentGpuMemoryUsage'],
+            'percentGpuUsage': itm['percentGpuUsage'],
+            'power': itm['power'] / WATT_FACTOR,
+            'powerSampleCount': itm['powerSampleCount'],
+            'powerSamplingPeriod': itm['powerSamplingPeriod'] / 1000.,
+            'productName': itm['productName'],
+            'productType': PROD_TYPE_LU.get(itm['productType'], '???'),
+            'uname': itm['uname'],
+            'ver': itm['ver'],
+            'verVBIOS': itm['verVBIOS'],
+            'videoCodec': itm['videoCodec'],
         }

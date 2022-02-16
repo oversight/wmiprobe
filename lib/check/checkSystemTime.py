@@ -4,7 +4,11 @@ import time
 
 
 class CheckSystemTime(Base):
-    qry = 'SELECT Year, Month, Day, Hour, Minute, Second FROM Win32_UTCTime'
+    qry = '''
+    SELECT
+    Year, Month, Day, Hour, Minute, Second
+    FROM Win32_UTCTime
+    '''
     type_name = 'system'
 
     @staticmethod

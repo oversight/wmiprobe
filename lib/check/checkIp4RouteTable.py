@@ -3,28 +3,13 @@ from .base import Base
 
 class CheckIp4RouteTable(Base):
 
-    qry = (
-        'SELECT '
-        'Name,'
-        'Age,'
-        'Caption,'
-        'Description,'
-        'Destination,'
-        'Information,'
-        'InterfaceIndex,'
-        'Mask,'
-        'Metric1,'
-        'Metric2,'
-        'Metric3,'
-        'Metric4,'
-        'Metric5,'
-        'NextHop,'
-        'Protocol,'
-        'Status,'
-        'InstallDate,'
-        'Type'
-        ' FROM Win32_IP4RouteTable'
-    )
+    qry = '''
+    SELECT
+    Name, Age, Caption, Description, Destination, Information, InterfaceIndex,
+    Mask, Metric1, Metric2, Metric3, Metric4, Metric5, NextHop, Protocol,
+    Status, InstallDate, Type
+    FROM Win32_IP4RouteTable
+    '''
     type_name = 'route'
     interval = 7200
 

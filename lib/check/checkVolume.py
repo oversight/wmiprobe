@@ -9,51 +9,20 @@ from .valueLookups import STATUS_INFO
 
 class CheckVolume(Base):
 
-    qry = (
-        'SELECT '
-        'Name,'
-        'Access,'
-        'Automount,'
-        'Availability,'
-        'BlockSize,'
-        'Capacity,'
-        'Caption,'
-        'Compressed,'
-        'ConfigManagerErrorCode,'
-        'ConfigManagerUserConfig,'
-        'CreationClassName,'
-        'Description,'
-        'DeviceID,'
-        'DirtyBitSet,'
-        'DriveLetter,'
-        'DriveType,'
-        'ErrorCleared,'
-        'ErrorDescription,'
-        'ErrorMethodology,'
-        'FileSystem,'
-        'FreeSpace,'
-        'IndexingEnabled,'
-        'InstallDate,'
-        'Label,'
-        'LastErrorCode,'
-        'MaximumFileNameLength,'
-        'NumberOfBlocks,'
-        'PNPDeviceID,'
-        'PowerManagementCapabilities,'
-        'PowerManagementSupported,'
-        'Purpose,'
-        'QuotasEnabled,'
-        'QuotasIncomplete,'
-        'QuotasRebuilding,'
-        'Status,'
-        # 'StatusInfo'
-        'SystemCreationClassName,'
-        'SystemName,'
-        'SerialNumber,'
-        'SupportsDiskQuotas,'
-        'SupportsFileBasedCompression'
-        ' FROM Win32_Volume'
-    )
+    qry = '''
+    SELECT
+    Name, Access, Automount, Availability, BlockSize, Capacity, Caption,
+    Compressed, ConfigManagerErrorCode, ConfigManagerUserConfig,
+    CreationClassName, Description, DeviceID, DirtyBitSet, DriveLetter,
+    DriveType, ErrorCleared, ErrorDescription, ErrorMethodology, FileSystem,
+    FreeSpace, IndexingEnabled, InstallDate, Label, LastErrorCode,
+    MaximumFileNameLength, NumberOfBlocks, PNPDeviceID,
+    PowerManagementCapabilities, PowerManagementSupported, Purpose,
+    QuotasEnabled, QuotasIncomplete, QuotasRebuilding, Status,
+    SystemCreationClassName, SystemName, SerialNumber, SupportsDiskQuotas,
+    SupportsFileBasedCompression
+    FROM Win32_Volume
+    '''
     type_name = 'volume'
 
     @staticmethod
@@ -72,7 +41,8 @@ class CheckVolume(Base):
             'capacity': total,
             'caption': itm['Caption'],
             'compressed': itm['Compressed'],
-            'configManagerErrorCode': CONFIG_MAN_ERR_CODE.get(itm['ConfigManagerErrorCode']),
+            'configManagerErrorCode':
+                CONFIG_MAN_ERR_CODE.get(itm['ConfigManagerErrorCode']),
             'configManagerUserConfig': itm['ConfigManagerUserConfig'],
             'creationClassName': itm['CreationClassName'],
             'description': itm['Description'],
@@ -92,7 +62,8 @@ class CheckVolume(Base):
             'maximumFileNameLength': itm['MaximumFileNameLength'],
             'numberOfBlocks': itm['NumberOfBlocks'],
             'pNPDeviceID': itm['PNPDeviceID'],
-            'powerManagementCapabilities': POW_MAN_CAP.get(itm['PowerManagementCapabilities']),
+            'powerManagementCapabilities':
+                POW_MAN_CAP.get(itm['PowerManagementCapabilities']),
             'powerManagementSupported': itm['PowerManagementSupported'],
             'purpose': itm['Purpose'],
             'quotasEnabled': itm['QuotasEnabled'],
@@ -104,6 +75,7 @@ class CheckVolume(Base):
             'systemName': itm['SystemName'],
             'serialNumber': itm['SerialNumber'],
             'supportsDiskQuotas': itm['SupportsDiskQuotas'],
-            'supportsFileBasedCompression': itm['SupportsFileBasedCompression'],
+            'supportsFileBasedCompression':
+                itm['SupportsFileBasedCompression'],
             'percentUsed': pct
         }

@@ -82,9 +82,9 @@ class Probe:
             check_name = data['checkName']
             config = data['hostConfig']['probeConfig'][cls.probe_name]
             ip4 = config['ip4']
-            check_interval = data.get('checkConfig', {}).get('metaConfig', {}).get(
+            interval = data.get('checkConfig', {}).get('metaConfig', {}).get(
                 'checkInterval')
-            assert check_interval is None or isinstance(check_interval, int)
+            assert interval is None or isinstance(interval, int)
             assert check_name in CHECKS
         except Exception:
             logging.error('invalid check configuration')
@@ -96,7 +96,7 @@ class Probe:
             return
 
         check = CHECKS[check_name]
-        max_runtime = cls.max_runtime_factor * (check_interval or check.interval)
+        max_runtime = cls.max_runtime_factor * (interval or check.interval)
 
         try:
             conn = Connection(ip4, **cred)
@@ -120,7 +120,8 @@ class Probe:
                 timeout=max_runtime
             )
         except asyncio.TimeoutError:
-            logging.warning(f'on_run_check {host_uuid} {check_name} check timeout')
+            e = 'check timeout'
+            logging.warning(f'on_run_check {host_uuid} {check_name} {e}')
             framework = {'timestamp': t0, 'runtime': time.time() - t0}
             message = 'Check timed out.'
 
