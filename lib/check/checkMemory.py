@@ -3,7 +3,11 @@ from .base import Base
 
 class CheckMemory(Base):
 
-    qry = 'SELECT Name, Caption, FreePhysicalMemory, TotalVisibleMemorySize FROM Win32_OperatingSystem'
+    qry = '''
+    SELECT
+    Name, Caption, FreePhysicalMemory, TotalVisibleMemorySize
+    FROM Win32_OperatingSystem
+    '''
     type_name = 'memory'
 
     @staticmethod

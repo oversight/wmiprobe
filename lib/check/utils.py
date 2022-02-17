@@ -29,5 +29,5 @@ def parse_wmi_date_1600(val):
 
 
 def format_list(val):
-    joined = ','.join(map(str, val))
+    joined = ' ,'.join(map(str, val))
     return f'[{joined}]'

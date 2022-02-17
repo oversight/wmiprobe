@@ -1,1 +1,4 @@
 aiowmi==0.1.1
+colorlog==6.6.0
+pycryptodome==3.14.1
+setproctitle==1.2.2

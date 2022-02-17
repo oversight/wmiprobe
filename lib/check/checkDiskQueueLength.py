@@ -3,33 +3,17 @@ from .base import Base
 
 class CheckDiskQueueLength(Base):
 
-    qry = (
-        'SELECT '
-        'Name,'
-        'AvgDiskBytesPerRead,'
-        'AvgDiskBytesPerTransfer,'
-        'AvgDiskBytesPerWrite,'
-        'AvgDiskQueueLength,'
-        'AvgDiskReadQueueLength,'
-        'AvgDisksecPerRead,'
-        'AvgDisksecPerTransfer,'
-        'AvgDisksecPerWrite,'
-        'AvgDiskWriteQueueLength,'
-        'CurrentDiskQueueLength,'
-        'Description,'
-        'DiskBytesPersec,'
-        'DiskReadBytesPersec,'
-        'DiskReadsPersec,'
-        'DiskTransfersPersec,'
-        'DiskWriteBytesPersec,'
-        'DiskWritesPersec,'
-        'PercentDiskReadTime,'
-        'PercentDiskTime,'
-        'PercentDiskWriteTime,'
-        'PercentIdleTime,'
-        'SplitIOPerSec'
-        ' FROM Win32_PerfFormattedData_PerfDisk_PhysicalDisk'
-    )
+    qry = '''
+    SELECT
+    Name, AvgDiskBytesPerRead, AvgDiskBytesPerTransfer, AvgDiskBytesPerWrite,
+    AvgDiskQueueLength, AvgDiskReadQueueLength, AvgDisksecPerRead,
+    AvgDisksecPerTransfer, AvgDisksecPerWrite, AvgDiskWriteQueueLength,
+    CurrentDiskQueueLength, Description, DiskBytesPersec, DiskReadBytesPersec,
+    DiskReadsPersec, DiskTransfersPersec, DiskWriteBytesPersec,
+    DiskWritesPersec, PercentDiskReadTime, PercentDiskTime,
+    PercentDiskWriteTime, PercentIdleTime, SplitIOPerSec
+    FROM Win32_PerfFormattedData_PerfDisk_PhysicalDisk
+    '''
     type_name = 'disk'
 
     @staticmethod

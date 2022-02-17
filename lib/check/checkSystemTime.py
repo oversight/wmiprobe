@@ -4,7 +4,11 @@ import time
 
 
 class CheckSystemTime(Base):
-    qry = 'SELECT Year, Month, Day, Hour, Minute, Second FROM Win32_UTCTime'
+    qry = '''
+    SELECT
+    Year, Month, Day, Hour, Minute, Second
+    FROM Win32_UTCTime
+    '''
     type_name = 'system'
 
     @staticmethod
@@ -12,6 +16,7 @@ class CheckSystemTime(Base):
         remote_ts = datetime.datetime(
             itm['Year'], itm['Month'], itm['Day'], itm['Hour'],
             itm['Minute'], itm['Second'],
+            tzinfo=datetime.timezone.utc
         ).timestamp()
         ts = time.time()
         diff = abs(remote_ts - ts)

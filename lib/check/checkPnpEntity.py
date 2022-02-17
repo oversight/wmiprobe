@@ -7,35 +7,16 @@ from .valueLookups import POW_MAN_CAP
 
 class CheckPnpEntity(Base):
 
-    qry = (
-        'SELECT '
-        'Availability,'
-        'Caption,'
-        'ClassGuid,'
-        'CompatibleID,'
-        'ConfigManagerErrorCode,'
-        'ConfigManagerUserConfig,'
-        'CreationClassName,'
-        'Description,'
-        'DeviceID,'
-        'ErrorCleared,'
-        'ErrorDescription,'
-        'HardwareID,'
-        'InstallDate,'
-        'LastErrorCode,'
-        'Manufacturer,'
-        # 'PNPClass,'
-        'PNPDeviceID,'
-        'PowerManagementCapabilities,'
-        'PowerManagementSupported,'
-        # 'Present,'
-        'Service,'
-        'Status,'
-        'StatusInfo,'
-        'SystemCreationClassName,'
-        'SystemName'
-        ' FROM Win32_PnPEntity'
-    )
+    qry = '''
+    SELECT
+    Availability, Caption, ClassGuid, CompatibleID, ConfigManagerErrorCode,
+    ConfigManagerUserConfig, CreationClassName, Description, DeviceID,
+    ErrorCleared, ErrorDescription, HardwareID, InstallDate, LastErrorCode,
+    Manufacturer, PNPDeviceID, PowerManagementCapabilities,
+    PowerManagementSupported, Service, Status, StatusInfo,
+    SystemCreationClassName, SystemName
+    FROM Win32_PnPEntity
+    '''
     type_name = 'hardware'
 
     @staticmethod
@@ -46,7 +27,8 @@ class CheckPnpEntity(Base):
             'caption': itm['Caption'],
             'classGuid': itm['ClassGuid'],
             'compatibleID': itm['CompatibleID'],
-            'configManagerErrorCode': CONFIG_MAN_ERR_CODE.get(itm['ConfigManagerErrorCode']),
+            'configManagerErrorCode':
+                CONFIG_MAN_ERR_CODE.get(itm['ConfigManagerErrorCode']),
             'configManagerUserConfig': itm['ConfigManagerUserConfig'],
             'creationClassName': itm['CreationClassName'],
             'description': itm['Description'],
@@ -59,7 +41,8 @@ class CheckPnpEntity(Base):
             'manufacturer': itm['Manufacturer'],
             # 'pNPClass': itm['PNPClass'],
             'pNPDeviceID': itm['PNPDeviceID'],
-            'powerManagementCapabilities': POW_MAN_CAP.get(itm['PowerManagementCapabilities']),
+            'powerManagementCapabilities':
+                POW_MAN_CAP.get(itm['PowerManagementCapabilities']),
             'powerManagementSupported': itm['PowerManagementSupported'],
             # 'present': itm['Present'],
             'service': itm['Service'],

@@ -3,7 +3,11 @@ from .base import Base
 
 class CheckPageFile(Base):
 
-    qry = 'SELECT Name, AllocatedBaseSize, CurrentUsage FROM Win32_PageFileUsage'
+    qry = '''
+    SELECT
+    Name, AllocatedBaseSize, CurrentUsage
+    FROM Win32_PageFileUsage
+    '''
     type_name = 'pageFile'
 
     @staticmethod

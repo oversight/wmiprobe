@@ -3,7 +3,12 @@ from .base import Base
 
 class CheckWindowsCountRemoteUsers(Base):
 
-    qry = 'SELECT Caption FROM Win32_Process WHERE Caption=\'winlogon.exe\''
+    qry = '''
+    SELECT
+    Caption
+    FROM Win32_Process
+    WHERE Caption=\'winlogon.exe\'
+    '''
     type_name = 'remote_users'
 
     @classmethod

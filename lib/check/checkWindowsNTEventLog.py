@@ -3,7 +3,12 @@ from .base import Base
 
 class CheckWindowsNTEventLog(Base):
 
-    qry = 'SELECT Archive, Compressed, Encrypted, EncryptionMethod, FileName, FileSize, LogfileName, MaxFileSize, Name, NumberOfRecords, OverWritePolicy, Status, Writeable, sources FROM Win32_NTEventlogFile'
+    qry = '''
+    SELECT
+    Archive, Compressed, Encrypted, EncryptionMethod, FileName, FileSize,
+    LogfileName, MaxFileSize, Name, NumberOfRecords, OverWritePolicy, Status,
+    Writeable, Sources
+    FROM Win32_NTEventlogFile'''
     type_name = 'eventLog'
 
     @staticmethod

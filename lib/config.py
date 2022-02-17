@@ -1,7 +1,30 @@
-import json
-import os
+from configparser import ConfigParser, NoSectionError, NoOptionError
 
 
-CONFIG_FOLDER = os.getenv('OS_CONFIG_FOLDER', '/etc')
-CONFIG_FN = os.path.join(CONFIG_FOLDER, 'wmiProbe-config.json')
-CONFIG = json.load(open(CONFIG_FN)) if os.path.exists(CONFIG_FN) else {}
+def read_asset_config(config: ConfigParser, key, decrypt):
+    try:
+        section = config['credentials']
+    except NoSectionError:
+        raise Exception(f'Missing section [credentials]')
+
+    try:
+        username = section.get('username')
+    except NoOptionError:
+        raise Exception(f'Missing username')
+
+    try:
+        password_encryped = section.get('password')
+    except NoOptionError:
+        raise Exception(f'Missing password')
+
+    try:
+        password = decrypt(key, password_encryped)
+    except Exception:
+        raise Exception(f'Failed to decrypt password')
+
+    return {
+        'credentials': {
+            'username': username,
+            'password': password,
+        }
+    }

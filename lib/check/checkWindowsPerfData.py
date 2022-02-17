@@ -3,27 +3,14 @@ from .base import Base
 
 class CheckWindowsPerfData(Base):
 
-    qry = (
-        'SELECT '
-        'Name,'
-        'C1TransitionsPersec,'
-        'C2TransitionsPersec,'
-        'C3TransitionsPersec,'
-        'DPCRate,'
-        'DPCsQueuedPersec,'
-        'InterruptsPersec,'
-        'PercentC1Time,'
-        'PercentC2Time,'
-        'PercentC3Time,'
-        'PercentDPCTime,'
-        'PercentIdleTime,'
-        'PercentInterruptTime,'
-        'PercentPrivilegedTime,'
-        'PercentProcessorTime,'
-        'PercentUserTime,'
-        'Description'
-        ' FROM Win32_PerfFormattedData_PerfOS_Processor'
-    )
+    qry = '''
+    SELECT
+    Name, C1TransitionsPersec, C2TransitionsPersec, C3TransitionsPersec,
+    DPCRate, DPCsQueuedPersec, InterruptsPersec, PercentC1Time, PercentC2Time,
+    PercentC3Time, PercentDPCTime, PercentIdleTime, PercentInterruptTime,
+    PercentPrivilegedTime, PercentProcessorTime, PercentUserTime, Description
+    FROM Win32_PerfFormattedData_PerfOS_Processor
+    '''
     type_name = 'cpu'
 
     @staticmethod

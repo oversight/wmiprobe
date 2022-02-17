@@ -3,11 +3,11 @@ from .base import Base
 
 class CheckOsMemory(Base):
 
-    qry = (
-        'SELECT '
-        'CommitLimit, CommittedBytes, PercentCommittedBytesInUse '
-        'from Win32_PerfFormattedData_PerfOS_Memory'
-    )
+    qry = '''
+    SELECT
+    CommitLimit, CommittedBytes, PercentCommittedBytesInUse
+    FROM Win32_PerfFormattedData_PerfOS_Memory
+    '''
     type_name = 'perfOSMemory'
 
     @staticmethod

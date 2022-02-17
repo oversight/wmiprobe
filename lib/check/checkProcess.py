@@ -15,39 +15,18 @@ NON_SUMMABLES = {
 
 class CheckProcess(Base):
 
-    qry = (
-        'SELECT '
-        'Name,'
-        'Description,'
-        'CreatingProcessID,'
-        'ElapsedTime,'
-        'HandleCount,'
-        'IDProcess,'
-        'IODataBytesPersec,'
-        'IODataOperationsPersec,'
-        'IOOtherBytesPersec,'
-        'IOOtherOperationsPersec,'
-        'IOReadBytesPersec,'
-        'IOReadOperationsPersec,'
-        'IOWriteBytesPersec,'
-        'IOWriteOperationsPersec,'
-        'PageFaultsPersec,'
-        'PageFileBytes,'
-        'PageFileBytesPeak,'
-        'PercentPrivilegedTime,'
-        'PercentProcessorTime,'
-        'PercentUserTime,'
-        'PoolNonpagedBytes,'
-        'PoolPagedBytes,'
-        'PriorityBase,'
-        'PrivateBytes,'
-        'ThreadCount,'
-        'VirtualBytes,'
-        'VirtualBytesPeak,'
-        'WorkingSet,'
-        'WorkingSetPeak'
-        ' FROM Win32_PerfFormattedData_PerfProc_Process'
-    )
+    qry = '''
+    SELECT
+    Name, Description, CreatingProcessID, ElapsedTime, HandleCount, IDProcess,
+    IODataBytesPersec, IODataOperationsPersec, IOOtherBytesPersec,
+    IOOtherOperationsPersec, IOReadBytesPersec, IOReadOperationsPersec,
+    IOWriteBytesPersec, IOWriteOperationsPersec, PageFaultsPersec,
+    PageFileBytes, PageFileBytesPeak, PercentPrivilegedTime,
+    PercentProcessorTime, PercentUserTime, PoolNonpagedBytes, PoolPagedBytes,
+    PriorityBase, PrivateBytes, ThreadCount, VirtualBytes, VirtualBytesPeak,
+    WorkingSet, WorkingSetPeak
+    FROM Win32_PerfFormattedData_PerfProc_Process
+    '''
     type_name = 'process'
 
     @staticmethod
@@ -105,11 +84,12 @@ class CheckProcess(Base):
 
         for itm in itms.values():
             if 'processCount' in itm:
-                itm['privateBytesAvg'] = itm['privateBytes'] / itm['processCount']
+                itm['privateBytesAvg'] = \
+                    itm['privateBytes'] / itm['processCount']
             else:
                 itm['privateBytesAvg'] = itm['privateBytes']
 
         return {
             cls.type_name: itms,
-            cls.type_name + '_Total': total_itm,
+            cls.type_name + '_Total': [total_itm],
         }

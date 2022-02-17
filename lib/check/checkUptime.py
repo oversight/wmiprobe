@@ -3,7 +3,11 @@ from .base import Base
 
 class CheckUptime(Base):
 
-    qry = 'SELECT SystemUpTime FROM Win32_PerfFormattedData_PerfOS_System'
+    qry = '''
+    SELECT
+    SystemUpTime
+    FROM Win32_PerfFormattedData_PerfOS_System
+    '''
     type_name = 'uptime'
 
     @staticmethod

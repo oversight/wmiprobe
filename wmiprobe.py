@@ -1,18 +1,26 @@
 import argparse
 import asyncio
 import os
+from agentcoreclient import AgentCoreClient
 from setproctitle import setproctitle
-from lib.agentcore.client import AgentCoreClient
-from lib.config import CONFIG
-from lib.logger import setup_logger
+from lib.check import CHECKS
+from lib.config import read_asset_config
+from lib.version import __version__
 
 
-AGENTCORE_IP = os.getenv('OS_AGENTCORE_IP', CONFIG.get('agentCoreIp', 'localhost'))
-AGENTCORE_PORT = os.getenv('OS_AGENTCORE_PORT', CONFIG.get('agentCorePort', 7211))
+# Migrate the wmic configuration and credentials
+def migrate_config_folder():
+    if os.path.exists('/data/config/OsWmicProbe'):
+        os.rename('/data/config/OsWmicProbe', '/data/config/wmiprobe')
+    if os.path.exists('/data/config/wmiprobe/defaultCredentials.ini'):
+        os.rename('/data/config/wmiprobe/defaultCredentials.ini',
+                  '/data/config/wmiprobe/defaultAssetConfig.ini')
 
 
 if __name__ == '__main__':
     setproctitle('wmiprobe.bin')
+
+    migrate_config_folder()
 
     parser = argparse.ArgumentParser()
 
@@ -29,10 +37,23 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    setup_logger(args)
+    loop = asyncio.get_event_loop()
 
-    cl = AgentCoreClient(AGENTCORE_IP, AGENTCORE_PORT)
-
-    asyncio.get_event_loop().run_until_complete(
-        cl.connect_loop()
+    cl = AgentCoreClient(
+        'wmiProbe',
+        __version__,
+        CHECKS,
+        read_asset_config,
+        '/data/config/wmiprobe/wmiProbe-config.json'
     )
+
+    cl.setup_logger(args)
+
+    loop.run_until_complete(
+        cl.connect()
+    )
+    loop.run_until_complete(
+        cl.announce()
+    )
+
+    loop.run_forever()
