@@ -8,7 +8,7 @@ from lib.version import __version__
 
 
 if __name__ == '__main__':
-    setproctitle('OsWmiProbe.bin')
+    setproctitle('wmiprobe.bin')
 
     parser = argparse.ArgumentParser()
 
