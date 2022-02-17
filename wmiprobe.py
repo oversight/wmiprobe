@@ -12,10 +12,14 @@ from lib.version import __version__
 def migrate_config_folder():
     if os.path.exists('/data/config/OsWmicProbe'):
         os.rename('/data/config/OsWmicProbe', '/data/config/wmiprobe')
+    if os.path.exists('/data/config/wmiprobe/defaultCredentials.ini'):
+        os.rename('defaultCredentials.ini', 'defaultAssetConfig.ini')
 
 
 if __name__ == '__main__':
     setproctitle('wmiprobe.bin')
+
+    migrate_config_folder()
 
     parser = argparse.ArgumentParser()
 
