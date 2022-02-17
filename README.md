@@ -1,24 +1,12 @@
+[![CI](https://github.com/oversight-monitoring/wmiprobe/workflows/CI/badge.svg)](https://github.com/oversight-monitoring/wmiprobe/actions)
+[![Release Version](https://img.shields.io/github/release/oversight-monitoring/wmiprobe)](https://github.com/oversight-monitoring/wmiprobe/releases)
+
 # Oversight WMI Probe
-
-## Local requirements
-
-Package `aiowmi` is required.
-
-Activate your Python environment (e.g. conda activate wmiprobe) and then install `aiowmi`
-
-```bash
-git clone git@github.com:cesbit/aiowmi.git
-cd aiowmi
-python setup.py install
-```
 
 ## Docker build
 
-A Personal Access Token is required to build this Docker image.
-*(Go to GitHub > Settings > Personal access tokens and generate a personal access token with repo scope enabled)*
-
 ```
-docker build -t oswmiprobe . --no-cache --build-arg PAT={your_token}
+docker build -t wmiprobe . --no-cache
 ```
 
 ## Issues

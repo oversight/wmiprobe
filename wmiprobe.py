@@ -14,13 +14,13 @@ if __name__ == '__main__':
 
     parser.add_argument(
         '-l', '--log-level',
-        default='debug',
+        default='warning',
         help='set the log level',
         choices=['debug', 'info', 'warning', 'error'])
 
     parser.add_argument(
         '--log-colorized',
-        action='store_false',
+        action='store_true',
         help='use colorized logging')
 
     args = parser.parse_args()
