@@ -13,7 +13,8 @@ def migrate_config_folder():
     if os.path.exists('/data/config/OsWmicProbe'):
         os.rename('/data/config/OsWmicProbe', '/data/config/wmiprobe')
     if os.path.exists('/data/config/wmiprobe/defaultCredentials.ini'):
-        os.rename('defaultCredentials.ini', 'defaultAssetConfig.ini')
+        os.rename('/data/config/wmiprobe/defaultCredentials.ini',
+                  '/data/config/wmiprobe/defaultAssetConfig.ini')
 
 
 if __name__ == '__main__':
@@ -43,7 +44,7 @@ if __name__ == '__main__':
         __version__,
         CHECKS,
         read_asset_config,
-        'wmiProbe-config.json'
+        '/data/config/wmiprobe/wmiProbe-config.json'
     )
 
     cl.setup_logger(args)
