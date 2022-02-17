@@ -1,9 +1,12 @@
+[![CI](https://github.com/oversight-monitoring/wmiprobe/workflows/CI/badge.svg)](https://github.com/oversight-monitoring/wmiprobe/actions)
+[![Release Version](https://img.shields.io/github/release/oversight-monitoring/wmiprobe)](https://github.com/oversight-monitoring/wmiprobe/releases)
+
 # Oversight WMI Probe
 
 ## Docker build
 
 ```
-docker build -t oswmiprobe . --no-cache
+docker build -t wmiprobe . --no-cache
 ```
 
 ## Issues

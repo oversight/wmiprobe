@@ -12,7 +12,7 @@ AGENTCORE_PORT = os.getenv('OS_AGENTCORE_PORT', CONFIG.get('agentCorePort', 7211
 
 
 if __name__ == '__main__':
-    setproctitle('OsWmiProbe.bin')
+    setproctitle('wmiprobe.bin')
 
     parser = argparse.ArgumentParser()
 
