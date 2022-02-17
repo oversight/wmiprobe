@@ -25,9 +25,9 @@ class Base:
     required_services = []
 
     @classmethod
-    async def run(cls, data, credentials=None):
+    async def run(cls, data, asset_config=None):
         try:
-            host_uuid = data['hostUuid']
+            asset_id = data['hostUuid']
             config = data['hostConfig']['probeConfig']['wmiProbe']
             ip4 = config['ip4']
             interval = data.get('checkConfig', {}).get('metaConfig', {}).get(
@@ -37,23 +37,21 @@ class Base:
             logging.error('invalid check configuration')
             return
 
-        if credentials is None:
-            logging.warning(f'missing credentials for {ip4}')
+        if asset_config is None or 'credentials' not in asset_config:
+            logging.warning(f'missing asset config for {asset_id} {ip4}')
             return
 
-        max_runtime = .8 * (interval or cls.interval)
-
         try:
-            conn = Connection(ip4, **credentials)
+            conn = Connection(ip4, **asset_config['credentials'])
             await conn.connect()
         except Exception:
-            logging.error(f'unable to connect to {host_uuid} {ip4}')
+            logging.error(f'unable to connect to {asset_id} {ip4}')
             return
 
         try:
             service = await conn.negotiate_ntlm()
         except Exception:
-            logging.error(f'unable to autheticate {host_uuid} {ip4}')
+            logging.error(f'unable to autheticate {asset_id} {ip4}')
 
             conn.close()
             return

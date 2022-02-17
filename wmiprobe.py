@@ -1,10 +1,17 @@
 import argparse
 import asyncio
+import os
 from agentcoreclient import AgentCoreClient
 from setproctitle import setproctitle
 from lib.check import CHECKS
-from lib.credentials import read_credentials
+from lib.config import read_asset_config
 from lib.version import __version__
+
+
+# Migrate the wmic configuration and credentials
+def migrate_config_folder():
+    if os.path.exists('/data/config/OsWmicProbe'):
+        os.rename('/data/config/OsWmicProbe', '/data/config/wmiprobe')
 
 
 if __name__ == '__main__':
@@ -31,7 +38,7 @@ if __name__ == '__main__':
         'wmiProbe',
         __version__,
         CHECKS,
-        read_credentials,
+        read_asset_config,
         'wmiProbe-config.json'
     )
 

@@ -1,7 +1,7 @@
 from configparser import ConfigParser, NoSectionError, NoOptionError
 
 
-def read_credentials(config: ConfigParser, key, decrypt):
+def read_asset_config(config: ConfigParser, key, decrypt):
     try:
         section = config['credentials']
     except NoSectionError:
@@ -23,6 +23,8 @@ def read_credentials(config: ConfigParser, key, decrypt):
         raise Exception(f'Failed to decrypt password')
 
     return {
-        'username': username,
-        'password': password,
+        'credentials': {
+            'username': username,
+            'password': password,
+        }
     }
