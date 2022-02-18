@@ -18,7 +18,7 @@ def migrate_config_folder():
 
 
 if __name__ == '__main__':
-    setproctitle('wmiprobe.bin')
+    setproctitle('wmiprobe')
 
     migrate_config_folder()
 
