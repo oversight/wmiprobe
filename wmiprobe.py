@@ -37,8 +37,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    loop = asyncio.get_event_loop()
-
     cl = AgentCoreClient(
         'wmiProbe',
         __version__,
@@ -47,13 +45,8 @@ if __name__ == '__main__':
         '/data/config/wmiprobe/wmiProbe-config.json'
     )
 
-    cl.setup_logger(args)
+    cl.setup_logger(args.log_level, args.log_colorized)
 
-    loop.run_until_complete(
-        cl.connect()
+    asyncio.get_event_loop().run_until_complete(
+        cl.connect_loop()
     )
-    loop.run_until_complete(
-        cl.announce()
-    )
-
-    loop.run_forever()
