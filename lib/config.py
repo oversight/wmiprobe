@@ -15,9 +15,9 @@ def read_asset_config(config: ConfigParser, key, decrypt):
     if '\\' in username:
         # Replace double back-slash with single if required
         username = username.replace('\\\\', '\\')
-        domain, user = username.split('\\')
+        domain, username = username.split('\\')
     elif '@' in username:
-        user, domain = username.split('@')
+        username, domain = username.split('@')
     else:
         domain = ''
 
