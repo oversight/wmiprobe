@@ -12,6 +12,15 @@ def read_asset_config(config: ConfigParser, key, decrypt):
     except NoOptionError:
         raise Exception(f'Missing username')
 
+    if '\\' in username:
+        # Replace double back-slash with single if required
+        username = username.replace('\\\\', '\\')
+        domain, user = username.split('\\')
+    elif '@' in username:
+        user, domain = username.split('@')
+    else:
+        domain = ''
+
     try:
         password_encryped = section.get('password')
     except NoOptionError:
@@ -26,5 +35,6 @@ def read_asset_config(config: ConfigParser, key, decrypt):
         'credentials': {
             'username': username,
             'password': password,
+            'domain': domain,
         }
     }
