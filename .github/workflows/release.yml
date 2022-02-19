@@ -32,7 +32,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/oversight-monitoring/wmiprobe
+          images: ${{ env.REGISTRY }}/oversight/wmiprobe
 
       - name: Get the version
         id: get_version
@@ -45,5 +45,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/oversight-monitoring/wmiprobe:${{ steps.get_version.outputs.VERSION }},ghcr.io/oversight-monitoring/wmiprobe:latest
+          tags: ghcr.io/oversight/wmiprobe:${{ steps.get_version.outputs.VERSION }},ghcr.io/oversight/wmiprobe:latest
           labels: ${{ steps.meta.outputs.labels }}

@@ -1,5 +1,5 @@
-[![CI](https://github.com/oversight-monitoring/wmiprobe/workflows/CI/badge.svg)](https://github.com/oversight-monitoring/wmiprobe/actions)
-[![Release Version](https://img.shields.io/github/release/oversight-monitoring/wmiprobe)](https://github.com/oversight-monitoring/wmiprobe/releases)
+[![CI](https://github.com/oversight/wmiprobe/workflows/CI/badge.svg)](https://github.com/oversight/wmiprobe/actions)
+[![Release Version](https://img.shields.io/github/release/oversight/wmiprobe)](https://github.com/oversight/wmiprobe/releases)
 
 # Oversight WMI Probe
 
