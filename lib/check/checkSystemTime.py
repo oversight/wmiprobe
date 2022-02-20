@@ -10,6 +10,7 @@ class CheckSystemTime(Base):
     FROM Win32_UTCTime
     '''
     type_name = 'system'
+    required = True
 
     @staticmethod
     def on_item(itm):
