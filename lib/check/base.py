@@ -22,7 +22,7 @@ class Base:
     type_name = None
     interval = 300
     namespace = 'root/cimv2'
-    required_services = []
+    required = False
 
     @classmethod
     async def run(cls, data, asset_config=None):
