@@ -1,7 +1,8 @@
+from typing import Callable
 from configparser import ConfigParser, NoSectionError, NoOptionError
 
 
-def read_asset_config(config: ConfigParser, key, decrypt):
+def read_asset_config(config: ConfigParser, key: bytes, decrypt: Callable):
     try:
         section = config['credentials']
     except NoSectionError:
