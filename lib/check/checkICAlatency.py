@@ -14,6 +14,6 @@ class CheckICAlatency(Base):
     @staticmethod
     def on_item(itm):
         return {
-            'name': itm['name'].split('(')[-1][:-1],
+            'name': itm['Name'].split('(')[-1][:-1],
             'latencySessionAverage': itm['LatencySessionAverage'],
         }
