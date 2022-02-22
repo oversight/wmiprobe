@@ -11,7 +11,6 @@ def parse_wmi_date(val, fmt='%Y%m%d'):
             return None
         return val
     except Exception:
-        logging.exception('DateStr: {}\n'.format(val))
         return None
 
 

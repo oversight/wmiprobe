@@ -15,7 +15,6 @@ class CheckExchangeQueue(Base):
     '''
 
     type_name = 'exchangeQueue'
-    required_services = ['wmi', 'exchange']
 
     @staticmethod
     def on_item(itm):

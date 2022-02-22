@@ -9,11 +9,10 @@ class CheckICAlatency(Base):
     FROM Win32_PerfFormattedData_CitrixICA_ICASession
     '''
     type_name = 'ICAsession'
-    required_services = ['wmi', 'citrix']
 
     @staticmethod
     def on_item(itm):
         return {
-            'name': itm['Name'].split('(')[-1][:-1],
+            'name': itm['name'].split('(')[-1][:-1],
             'latencySessionAverage': itm['LatencySessionAverage'],
         }

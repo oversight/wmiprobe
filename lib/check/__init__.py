@@ -1,4 +1,3 @@
-from .checkCitrixLogonTimings import CheckCitrixLogonTimings
 from .checkDiskIo import CheckDiskIo
 from .checkDiskQueueLength import CheckDiskQueueLength
 from .checkExchangeQueue import CheckExchangeQueue
@@ -27,7 +26,6 @@ from .checkWindowsServices import CheckWindowsServices
 
 
 CHECKS = {
-    'CheckCitrixLogonTimings': CheckCitrixLogonTimings,
     'CheckDiskIo': CheckDiskIo,
     'CheckDiskQueueLength': CheckDiskQueueLength,
     'CheckExchangeQueue': CheckExchangeQueue,
