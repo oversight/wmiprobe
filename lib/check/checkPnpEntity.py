@@ -11,8 +11,7 @@ class CheckPnpEntity(Base):
     SELECT
     Availability, ConfigManagerErrorCode, ConfigManagerUserConfig, Description,
     HardwareID, InstallDate, LastErrorCode, Manufacturer, PNPDeviceID,
-    PowerManagementCapabilities, PowerManagementSupported, Service, Status, 
-    StatusInfo
+    Service, Status, StatusInfo
     FROM Win32_PnPEntity
     '''
     type_name = 'hardware'
@@ -31,9 +30,6 @@ class CheckPnpEntity(Base):
             'installDate': itm['InstallDate'],
             'lastErrorCode': itm['LastErrorCode'],
             'manufacturer': itm['Manufacturer'],
-            'powerManagementCapabilities':
-                POW_MAN_CAP.get(itm['PowerManagementCapabilities']),
-            'powerManagementSupported': itm['PowerManagementSupported'],
             'service': itm['Service'],
             'status': itm['Status'],
             'statusInfo': STATUS_INFO.get(itm['StatusInfo']),
