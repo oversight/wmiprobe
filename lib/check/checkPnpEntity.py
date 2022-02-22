@@ -26,7 +26,6 @@ class CheckPnpEntity(Base):
             'configManagerErrorCode':
                 CONFIG_MAN_ERR_CODE.get(itm['ConfigManagerErrorCode']),
             'configManagerUserConfig': itm['ConfigManagerUserConfig'],
-            'creationClassName': itm['CreationClassName'],
             'description': itm['Description'],
             'hardwareID': itm['HardwareID'],
             'installDate': itm['InstallDate'],

@@ -8,9 +8,8 @@ class CheckNetworkAdapter(Base):
 
     qry = '''
     SELECT
-    AdapterType, AutoSense, Availability, Caption, ConfigManagerErrorCode,
-    ConfigManagerUserConfig, CreationClassName, Description, DeviceID,
-    ErrorCleared, ErrorDescription, GUID, Index, InstallDate, Installed,
+    AdapterType, AutoSense, Availability, ConfigManagerErrorCode,
+    ConfigManagerUserConfig, Description, InstallDate, Installed,
     InterfaceIndex, LastErrorCode, MACAddress, Manufacturer,
     MaxNumberControlled, MaxSpeed, NetConnectionID, NetConnectionStatus,
     NetEnabled, NetworkAddresses, PermanentAddress, PhysicalAdapter,
@@ -23,22 +22,16 @@ class CheckNetworkAdapter(Base):
 
     @staticmethod
     def on_item(itm):
+
         return {
             'name': itm['PNPDeviceID'],
             'adapterType': itm['AdapterType'],
             'autoSense': itm['AutoSense'],
             'availability': AVAILABILITY_LU.get(itm['Availability']),
-            'caption': itm['Caption'],
             'configManagerErrorCode':
                 CONFIG_MAN_ERR_CODE.get(itm['ConfigManagerErrorCode']),
             'configManagerUserConfig': itm['ConfigManagerUserConfig'],
-            'creationClassName': itm['CreationClassName'],
             'description': itm['Description'],
-            'deviceID': itm['DeviceID'],
-            'errorCleared': itm['ErrorCleared'],
-            'errorDescription': itm['ErrorDescription'],
-            'GUID': itm['GUID'],
-            'index': itm['Index'],
             'installDate': itm['InstallDate'],
             'installed': itm['Installed'],
             'interfaceIndex': itm['InterfaceIndex'],
@@ -60,7 +53,5 @@ class CheckNetworkAdapter(Base):
             'speed': itm['Speed'],
             'status': itm['Status'],
             'statusInfo': STATUS_INFO.get(itm['StatusInfo']),
-            'systemCreationClassName': itm['SystemCreationClassName'],
-            'systemName': itm['SystemName'],
             'timeOfLastReset': itm['TimeOfLastReset'],
         }
