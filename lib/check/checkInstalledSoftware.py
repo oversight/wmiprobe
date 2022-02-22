@@ -1,16 +1,7 @@
 from .base import Base
 from .languageNames import LANGUAGE_NAMES
+from .valueLookups import INSTALL_STATES_LU
 from .utils import parse_wmi_date
-
-
-INSTALL_STATES_LU = {
-    -6: 'Bad Configuration',
-    -2: 'Invalid Argument',
-    -1: 'Unknown Package',
-    1: 'Advertised',
-    2: 'Absent',
-    5: 'Installed'
-}
 
 
 class CheckInstalledSoftware(Base):

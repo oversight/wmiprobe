@@ -2,7 +2,6 @@ from .base import Base
 from .valueLookups import CONFIG_MAN_ERR_CODE
 from .valueLookups import AVAILABILITY_LU
 from .valueLookups import STATUS_INFO
-from .valueLookups import POW_MAN_CAP
 
 
 class CheckPnpEntity(Base):

@@ -99,27 +99,6 @@ DRIVE_TYPES = {
 }
 
 
-POW_MAN_CAP = {
-    0: 'Unknown',
-    1: 'Not Supported',
-    2: 'Disabled',
-    3: ('Enabled: The power management features are currently enabled but the '
-        'exact feature set is unknown or the information is unavailable'),
-    4: ('Power Saving Modes Entered Automatically: The device can change its '
-        'power state based on usage or other criteria'),
-    5: ('Power State Settable: The SetPowerState method is supported. This '
-        'method is found on the parent CIM_LogicalDevice class and can be '
-        'implemented. For more information, see Designing Managed Object '
-        'Format (MOF) Classes'),
-    6: ('Power Cycling Supported: The SetPowerState method can be invoked '
-        'with the PowerState parameter set to 5 (Power Cycle)'),
-    7: ('Timed Power-On Supported: The SetPowerState method can be invoked '
-        'with the PowerState parameter set to 5 (Power Cycle) and Time set to '
-        'a specific date and time, or interval, for power-on'),
-    None: None
-}
-
-
 STATUS_INFO = {
     1: 'Other',
     2: 'Unknown',
@@ -128,4 +107,14 @@ STATUS_INFO = {
     5: 'Not Applicable',
     None: None,
     0: None
+}
+
+
+INSTALL_STATES_LU = {
+    -6: 'Bad Configuration',
+    -2: 'Invalid Argument',
+    -1: 'Unknown Package',
+    1: 'Advertised',
+    2: 'Absent',
+    5: 'Installed'
 }
