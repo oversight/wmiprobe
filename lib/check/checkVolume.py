@@ -3,7 +3,6 @@ from .valueLookups import ACCESS_LU
 from .valueLookups import AVAILABILITY_LU
 from .valueLookups import CONFIG_MAN_ERR_CODE
 from .valueLookups import DRIVE_TYPES
-from .valueLookups import POW_MAN_CAP
 from .valueLookups import STATUS_INFO
 
 
