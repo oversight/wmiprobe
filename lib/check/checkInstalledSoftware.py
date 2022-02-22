@@ -17,10 +17,10 @@ class CheckInstalledSoftware(Base):
 
     qry = '''
     SELECT
-    Caption, Description, InstallDate, InstallDate2, InstallLocation,
-    InstallSource, InstallState, Language, LocalPackage, Name, PackageCache,
-    PackageCode, PackageName, ProductID, RegCompany, RegOwner, SKUNumber,
-    Transforms, URLInfoAbout, URLUpdateInfo, Vendor, Version
+    Description, InstallDate, InstallDate2, InstallLocation, InstallSource,
+    InstallState, Language, LocalPackage, Name, PackageCache, PackageCode,
+    PackageName, ProductID, RegCompany, RegOwner, SKUNumber, Transforms,
+    URLInfoAbout, URLUpdateInfo, Vendor, Version
     FROM Win32_Product
     '''
     type_name = 'win32product'
@@ -41,7 +41,6 @@ class CheckInstalledSoftware(Base):
 
         return {
             'name': itm['PackageCode'],
-            'caption': itm['Caption'],
             'description': itm['Description'],
             'installDate': install_date,
             'installLocation': itm['InstallLocation'],
