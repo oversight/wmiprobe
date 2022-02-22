@@ -6,7 +6,7 @@ class CheckUpdates(Base):
 
     qry = '''
     SELECT
-    Caption, Description, InstallDate, Name, Status, CSName, FixComments,
+    Description, Name, CSName, FixComments,
     HotFixID, InstalledBy, InstalledOn, ServicePackInEffect
     FROM Win32_QuickFixEngineering
     '''
@@ -25,10 +25,7 @@ class CheckUpdates(Base):
 
         return {
             'name': itm['HotFixID'],
-            'Caption': itm['Caption'],
             'Description': itm['Description'],
-            'InstallDate': itm['InstallDate'],
-            'Status': itm['Status'],
             'CSName': itm['CSName'],
             'FixComments': itm['FixComments'],
             'HotFixID': itm['HotFixID'],

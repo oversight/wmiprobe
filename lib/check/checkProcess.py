@@ -17,11 +17,8 @@ class CheckProcess(Base):
 
     qry = '''
     SELECT
-    Name, Description, CreatingProcessID, ElapsedTime, HandleCount, IDProcess,
-    IODataBytesPersec, IODataOperationsPersec, IOOtherBytesPersec,
-    IOOtherOperationsPersec, IOReadBytesPersec, IOReadOperationsPersec,
-    IOWriteBytesPersec, IOWriteOperationsPersec, PageFaultsPersec,
-    PageFileBytes, PageFileBytesPeak, PercentPrivilegedTime,
+    Name, CreatingProcessID, ElapsedTime, HandleCount, IDProcess,
+    PageFaultsPersec, PageFileBytes, PageFileBytesPeak, PercentPrivilegedTime,
     PercentProcessorTime, PercentUserTime, PoolNonpagedBytes, PoolPagedBytes,
     PriorityBase, PrivateBytes, ThreadCount, VirtualBytes, VirtualBytesPeak,
     WorkingSet, WorkingSetPeak
@@ -33,19 +30,10 @@ class CheckProcess(Base):
     def on_item(itm):
         return {
             'name': itm['Name'],
-            'description': itm['Description'],
             'creatingProcessID': itm['CreatingProcessID'],
             'elapsedTime': itm['ElapsedTime'],
             'handleCount': itm['HandleCount'],
             'IdProcess': itm['IDProcess'],
-            'IoDataBytesPersec': itm['IODataBytesPersec'],
-            'IoDataOperationsPersec': itm['IODataOperationsPersec'],
-            'IoOtherBytesPersec': itm['IOOtherBytesPersec'],
-            'IoOtherOperationsPersec': itm['IOOtherOperationsPersec'],
-            'IoReadBytesPersec': itm['IOReadBytesPersec'],
-            'IoReadOperationsPersec': itm['IOReadOperationsPersec'],
-            'IoWriteBytesPersec': itm['IOWriteBytesPersec'],
-            'IoWriteOperationsPersec': itm['IOWriteOperationsPersec'],
             'pageFaultsPersec': itm['PageFaultsPersec'],
             'pageFileBytes': itm['PageFileBytes'],
             'pageFileBytesPeak': itm['PageFileBytesPeak'],

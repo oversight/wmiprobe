@@ -5,8 +5,7 @@ class CheckWindowsNTEventLog(Base):
 
     qry = '''
     SELECT
-    FileName, FileSize, LogfileName, MaxFileSize, Name, NumberOfRecords, 
-    OverWritePolicy, Status, Writeable, Sources
+    FileName, Name, NumberOfRecords, Status
     FROM Win32_NTEventlogFile'''
     type_name = 'eventLog'
 
@@ -15,12 +14,6 @@ class CheckWindowsNTEventLog(Base):
         return {
             'name': itm['Name'],
             'fileName': itm['FileName'],
-            'fileSize': itm['FileSize'],
-            'logfileName': itm['LogfileName'],
-            'maxFileSize': itm['MaxFileSize'],
             'numberOfRecords': itm['NumberOfRecords'],
-            'overWritePolicy': itm['OverWritePolicy'],
-            'sources': itm['Sources'],
             'status': itm['Status'],
-            'writeable': itm['Writeable'],
         }
