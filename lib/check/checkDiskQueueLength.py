@@ -6,7 +6,7 @@ class CheckDiskQueueLength(Base):
     qry = '''
     SELECT
     Name, AvgDiskQueueLength, AvgDiskReadQueueLength, AvgDiskWriteQueueLength,
-    CurrentDiskQueueLength, DiskReadBytesPersec, DiskReadsPersec, 
+    CurrentDiskQueueLength, DiskReadBytesPersec, DiskReadsPersec,
     DiskWriteBytesPersec, DiskWritesPersec, PercentDiskReadTime,
     PercentDiskWriteTime
     FROM Win32_PerfFormattedData_PerfDisk_PhysicalDisk
