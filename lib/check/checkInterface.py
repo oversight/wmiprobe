@@ -6,8 +6,7 @@ class CheckInterface(Base):
     qry = '''
     SELECT
     BytesReceivedPersec, BytesSentPersec, CurrentBandwidth, Name,
-    packetsReceivedPersec, packetsSentPersec, PacketsOutboundDiscarded,
-    PacketsOutboundErrors, PacketsReceivedDiscarded,
+    PacketsOutboundDiscarded, PacketsOutboundErrors, PacketsReceivedDiscarded,
     PacketsReceivedErrors, OutputQueueLength
     FROM Win32_PerfFormattedData_Tcpip_NetworkInterface
     '''
@@ -21,8 +20,6 @@ class CheckInterface(Base):
             'BytesReceivedPersec': itm['BytesReceivedPersec'],
             'BytesSentPersec': itm['BytesSentPersec'],
             'CurrentBandwidth': itm['CurrentBandwidth'],
-            'PacketsReceivedPersec': itm['PacketsReceivedPersec'],
-            'PacketsSentPersec': itm['PacketsSentPersec'],
             'PacketsOutboundDiscarded': itm['PacketsOutboundDiscarded'],
             'PacketsOutboundErrors': itm['PacketsOutboundErrors'],
             'PacketsReceivedDiscarded': itm['PacketsReceivedDiscarded'],

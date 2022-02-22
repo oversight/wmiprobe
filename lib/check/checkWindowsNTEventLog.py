@@ -5,9 +5,8 @@ class CheckWindowsNTEventLog(Base):
 
     qry = '''
     SELECT
-    Archive, Compressed, Encrypted, EncryptionMethod, FileName, FileSize,
-    LogfileName, MaxFileSize, Name, NumberOfRecords, OverWritePolicy, Status,
-    Writeable, Sources
+    FileName, FileSize, LogfileName, MaxFileSize, Name, NumberOfRecords, 
+    OverWritePolicy, Status, Writeable, Sources
     FROM Win32_NTEventlogFile'''
     type_name = 'eventLog'
 
@@ -15,10 +14,6 @@ class CheckWindowsNTEventLog(Base):
     def on_item(itm):
         return {
             'name': itm['Name'],
-            'archive': itm['Archive'],
-            'compressed': itm['Compressed'],
-            'encrypted': itm['Encrypted'],
-            'encryptionMethod': itm['EncryptionMethod'],
             'fileName': itm['FileName'],
             'fileSize': itm['FileSize'],
             'logfileName': itm['LogfileName'],

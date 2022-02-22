@@ -20,7 +20,6 @@ class CheckMemory(Base):
         return {
             'name': 'memory',
             'osVersion': itm['Caption'].strip(),
-            'system': itm['Name'],
             'freePhysicalMemory': free,
             'totalVisibleMemorySize': total,
             'percentUsed': pct
