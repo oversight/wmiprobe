@@ -1,9 +1,7 @@
 from .base import Base
 from .valueLookups import ACCESS_LU
-from .valueLookups import AVAILABILITY_LU
 from .valueLookups import CONFIG_MAN_ERR_CODE
 from .valueLookups import DRIVE_TYPES
-from .valueLookups import STATUS_INFO
 
 
 class CheckVolume(Base):
@@ -57,7 +55,6 @@ class CheckVolume(Base):
             'quotasEnabled': itm['QuotasEnabled'],
             'quotasIncomplete': itm['QuotasIncomplete'],
             'quotasRebuilding': itm['QuotasRebuilding'],
-            # 'statusInfo': STATUS_INFO.get(itm['StatusInfo']),
             'systemName': itm['SystemName'],
             'serialNumber': itm['SerialNumber'],
             'supportsDiskQuotas': itm['SupportsDiskQuotas'],
