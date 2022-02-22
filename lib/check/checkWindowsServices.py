@@ -5,7 +5,7 @@ class CheckWindowsServices(Base):
 
     qry = '''
     SELECT
-    Caption, DesktopInteract, ExitCode, PathName, ServiceSpecificExitCode,
+    DesktopInteract, ExitCode, PathName, ServiceSpecificExitCode,
     ServiceType, State, Status, Name, DisplayName, Description, ProcessId,
     StartMode, StartName, Started
     FROM Win32_Service
@@ -22,7 +22,6 @@ class CheckWindowsServices(Base):
             'started': itm['Started'],
             'startMode': itm['StartMode'],
             'startName': itm['StartName'],
-            'caption': itm['Caption'],
             'desktopInteract': itm['DesktopInteract'],
             'exitCode': itm['ExitCode'],
             'pathName': itm['PathName'],

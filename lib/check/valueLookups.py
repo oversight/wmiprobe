@@ -99,6 +99,7 @@ DRIVE_TYPES = {
 }
 
 
+# Unused
 POW_MAN_CAP = {
     0: 'Unknown',
     1: 'Not Supported',
