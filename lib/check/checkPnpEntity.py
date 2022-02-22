@@ -10,7 +10,7 @@ class CheckPnpEntity(Base):
     qry = '''
     SELECT
     Availability, ConfigManagerErrorCode, ConfigManagerUserConfig, Description,
-    HardwareID, InstallDate, LastErrorCode, Manufacturer, 
+    HardwareID, InstallDate, LastErrorCode, Manufacturer, PNPDeviceID,
     PowerManagementCapabilities, PowerManagementSupported, Service, Status, 
     StatusInfo
     FROM Win32_PnPEntity
