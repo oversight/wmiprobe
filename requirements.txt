@@ -1,3 +1,3 @@
-agentcoreclient==0.1.5
+agentcoreclient==0.1.6
 aiowmi==0.1.4
 setproctitle==1.2.2
