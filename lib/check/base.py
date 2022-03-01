@@ -44,14 +44,14 @@ class Base:
         try:
             conn = Connection(ip4, **asset_config['credentials'])
             await conn.connect()
-        except Exception:
-            logging.error(f'unable to connect to {asset_id} {ip4}')
+        except Exception as e:
+            logging.error(f'unable to connect to {asset_id} {ip4} `{e}`')
             return
 
         try:
             service = await conn.negotiate_ntlm()
-        except Exception:
-            logging.error(f'unable to autheticate {asset_id} {ip4}')
+        except Exception as e:
+            logging.error(f'unable to authenticate {asset_id} {ip4} `{e}`')
 
             conn.close()
             return
