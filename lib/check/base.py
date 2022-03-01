@@ -1,6 +1,7 @@
 import asyncio
 import datetime
 import logging
+from collections import defaultdict
 from aiowmi.connection import Connection
 from aiowmi.exceptions import WbemExInvalidClass
 from aiowmi.exceptions import WbemExInvalidNamespace
@@ -16,23 +17,26 @@ DTYPS_NOT_NULL = {
     list: '[]',
 }
 
-_queue = asyncio.Queue()
+
+class Worker:
+    def __init__(self):
+        self.queue = asyncio.Queue()
+        asyncio.ensure_future(self.worker())
+
+    async def worker(self):
+        while True:
+            cls, fut, data, asset_config = await self.queue.get()
+            try:
+                res = await cls._run(data, asset_config)
+            except Exception as e:
+                fut.set_exeption(e)
+            else:
+                fut.set_result(res)
+            finally:
+                self.queue.task_done()
 
 
-async def _worker():
-    while True:
-        cls, fut, data, asset_config = await _queue.get()
-        try:
-            res = await cls._run(data, asset_config)
-        except Exception as e:
-            fut.set_exeption(e)
-        else:
-            fut.set_result(res)
-        finally:
-            _queue.task_done()
-
-
-asyncio.ensure_future(_worker())
+_workers = defaultdict(Worker)
 
 
 class Base:
@@ -45,7 +49,10 @@ class Base:
     @classmethod
     def run(cls, data, asset_config=None):
         fut = asyncio.Future()
-        _queue.put_nowait([cls, fut, data, asset_config])
+        asset_id = data['hostUuid']
+
+        worker = _workers[asset_id]
+        worker.queue.put_nowait([cls, fut, data, asset_config])
         return fut
 
     @classmethod
