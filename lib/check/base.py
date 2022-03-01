@@ -16,6 +16,20 @@ DTYPS_NOT_NULL = {
     list: '[]',
 }
 
+_queue = asyncio.Queue()
+
+
+async def _worker():
+    while True:
+        cls, data, asset_config = await _queue.get()
+        try:
+            await cls._run(data, asset_config)
+        finally:
+            _queue.task_done()
+
+
+asyncio.ensure_future(_worker())
+
 
 class Base:
     qry = None
@@ -26,6 +40,9 @@ class Base:
 
     @classmethod
     async def run(cls, data, asset_config=None):
+        _queue.put_nowait([cls, data, asset_config])
+
+    async def _run(cls, data, asset_config=None):
         try:
             asset_id = data['hostUuid']
             config = data['hostConfig']['probeConfig']['wmiProbe']
@@ -33,8 +50,8 @@ class Base:
             interval = data.get('checkConfig', {}).get('metaConfig', {}).get(
                 'checkInterval')
             assert interval is None or isinstance(interval, int)
-        except Exception:
-            logging.error('invalid check configuration')
+        except Exception as e:
+            logging.error(f'invalid check configuration: `{e}`')
             return
 
         if asset_config is None or 'credentials' not in asset_config:
