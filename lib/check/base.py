@@ -43,7 +43,7 @@ class Base:
     required = False
 
     @classmethod
-    async def run(cls, data, asset_config=None):
+    def run(cls, data, asset_config=None):
         fut = asyncio.Future()
         _queue.put_nowait([cls, fut, data, asset_config])
         return fut
