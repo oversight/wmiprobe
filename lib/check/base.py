@@ -29,7 +29,7 @@ class Worker:
             try:
                 res = await cls._run(data, asset_config)
             except Exception as e:
-                fut.set_exeption(e)
+                fut.set_exception(e)
             else:
                 fut.set_result(res)
             finally:
