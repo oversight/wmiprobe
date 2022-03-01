@@ -42,6 +42,7 @@ class Base:
     async def run(cls, data, asset_config=None):
         _queue.put_nowait([cls, data, asset_config])
 
+    @classmethod
     async def _run(cls, data, asset_config=None):
         try:
             asset_id = data['hostUuid']
