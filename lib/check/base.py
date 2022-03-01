@@ -21,9 +21,13 @@ _queue = asyncio.Queue()
 
 async def _worker():
     while True:
-        cls, data, asset_config = await _queue.get()
+        cls, fut, data, asset_config = await _queue.get()
         try:
-            await cls._run(data, asset_config)
+            res = await cls._run(data, asset_config)
+        except Exception as e:
+            fut.set_exeption(e)
+        else:
+            fut.set_result(res)
         finally:
             _queue.task_done()
 
@@ -40,7 +44,9 @@ class Base:
 
     @classmethod
     async def run(cls, data, asset_config=None):
-        _queue.put_nowait([cls, data, asset_config])
+        fut = asyncio.Future()
+        _queue.put_nowait([cls, fut, data, asset_config])
+        return fut
 
     @classmethod
     async def _run(cls, data, asset_config=None):
