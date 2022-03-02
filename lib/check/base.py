@@ -76,14 +76,17 @@ class Base:
             conn = Connection(ip4, **asset_config['credentials'])
             await conn.connect()
         except Exception as e:
-            logging.error(f'unable to connect to {asset_id} {ip4} `{e}`')
+            logging.error(
+                f'unable to connect to {asset_id} {ip4}; '
+                f'{e.__class__.__name__} {e}')
             return
 
         try:
             service = await conn.negotiate_ntlm()
         except Exception as e:
-            logging.error(f'unable to authenticate {asset_id} {ip4} `{e}`')
-
+            logging.error(
+                f'unable to authenticate {asset_id} {ip4}; '
+                f'{e.__class__.__name__} {e}')
             conn.close()
             return
 
