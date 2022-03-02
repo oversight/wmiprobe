@@ -74,7 +74,7 @@ class Base:
 
         try:
             conn = Connection(ip4, **asset_config['credentials'])
-            await conn.connect()
+            await conn.connect(timeout=10)
         except Exception as e:
             logging.error(
                 f'unable to connect to {asset_id} {ip4}; '
