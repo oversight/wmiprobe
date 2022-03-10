@@ -23,12 +23,12 @@ def read_asset_config(config: ConfigParser, key: bytes, decrypt: Callable):
         domain = ''
 
     try:
-        password_encryped = section.get('password')
+        password_encrypted = section.get('password')
     except NoOptionError:
         raise Exception(f'Missing password')
 
     try:
-        password = decrypt(key, password_encryped)
+        password = decrypt(key, password_encrypted)
     except Exception:
         raise Exception(f'Failed to decrypt password')
 
