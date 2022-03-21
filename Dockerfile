@@ -1,6 +1,4 @@
-FROM python:3.8
-ENV OS_CONFIG_FOLDER /data/config/wmiprobe/
-ADD . /code
+FROM transceptortechnology/oswmicprobe:latest
+ENV OS_CONFIG_FOLDER /data/config/OsWmicProbe/
 WORKDIR /code
-RUN pip install --no-cache-dir -r requirements.txt
-CMD ["python", "wmiprobe.py"]
+CMD ["python", "wmicProbe.py"]
