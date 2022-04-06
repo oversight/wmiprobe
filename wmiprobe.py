@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    cl.setup_logger(args.log_level, args.log_colorized)
+    AgentCoreClient.setup_logger(args.log_level, args.log_colorized)
 
     cl = AgentCoreClient(
         'wmiProbe',
