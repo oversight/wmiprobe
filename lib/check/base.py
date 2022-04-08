@@ -5,7 +5,9 @@ from collections import defaultdict
 from aiowmi.connection import Connection
 from aiowmi.exceptions import WbemExInvalidClass
 from aiowmi.exceptions import WbemExInvalidNamespace
-from aiowmi.exceptions import WbemStopIteration, WbemException
+from aiowmi.exceptions import WbemStopIteration
+from aiowmi.exceptions import WbemException
+from aiowmi.exceptions import ServerNotOptimized
 from aiowmi.query import Query
 from .utils import format_list
 
@@ -116,6 +118,12 @@ class Base:
         try:
             query = Query(cls.qry, namespace=cls.namespace)
             await query.start(conn, service)
+
+            try:
+                await query.optimize()
+            except ServerNotOptimized:
+                cinfo = conn.connection_info()
+                logging.info(f'server side is not optimized ({cinfo})')
 
             while True:
                 try:
