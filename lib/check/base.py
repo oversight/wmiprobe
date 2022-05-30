@@ -115,8 +115,8 @@ class Base:
     @classmethod
     async def get_data(cls, conn, service):
         wmi_data = []
+        query = Query(cls.qry, namespace=cls.namespace)
         try:
-            query = Query(cls.qry, namespace=cls.namespace)
             await query.start(conn, service)
 
             try:
@@ -152,6 +152,8 @@ class Base:
         except Exception:
             logging.exception('WMI query error\n')
             raise
+        finally:
+            query.done()
 
         try:
             state = cls.iterate_results(wmi_data)
