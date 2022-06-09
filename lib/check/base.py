@@ -153,7 +153,7 @@ class Base:
             logging.exception('WMI query error\n')
             raise
         finally:
-            query.done()
+            await query.done()
 
         try:
             state = cls.iterate_results(wmi_data)
