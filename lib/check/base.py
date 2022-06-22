@@ -93,9 +93,10 @@ class Base:
             return
 
         max_runtime = .8 * (interval or cls.interval)
+        query = Query(cls.qry, namespace=cls.namespace)
         try:
             state_data = await asyncio.wait_for(
-                cls.get_data(conn, service),
+                cls.get_data(conn, service, query),
                 timeout=max_runtime
             )
         except (WbemExInvalidClass, WbemExInvalidNamespace):
@@ -109,13 +110,13 @@ class Base:
         else:
             return state_data
         finally:
+            await query.done()
             service.close()
             conn.close()
 
     @classmethod
-    async def get_data(cls, conn, service):
+    async def get_data(cls, conn, service, query):
         wmi_data = []
-        query = Query(cls.qry, namespace=cls.namespace)
         try:
             await query.start(conn, service)
 
@@ -152,8 +153,6 @@ class Base:
         except Exception:
             logging.exception('WMI query error\n')
             raise
-        finally:
-            await query.done()
 
         try:
             state = cls.iterate_results(wmi_data)
