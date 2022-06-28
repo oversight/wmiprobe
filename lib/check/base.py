@@ -22,7 +22,7 @@ DTYPS_NOT_NULL = {
 
 class Worker:
     def __init__(self):
-        self.queue = asyncio.Queue(maxsize=30)  # at least the number of checks
+        self.queue = asyncio.Queue(maxsize=25)  # at least the number of checks
         asyncio.ensure_future(self.worker())
 
     async def worker(self):
@@ -54,7 +54,11 @@ class Base:
         asset_id = data['hostUuid']
 
         worker = _workers[asset_id]
-        worker.queue.put_nowait([cls, fut, data, asset_config])
+        logging.debug(f"Queue size for {asset_id} is {worker.queue.qsize()}")
+        try:
+            worker.queue.put_nowait([cls, fut, data, asset_config])
+        except asyncio.QueueFull:
+            raise asyncio.QueueFull('Queue for this asset is full')
         return fut
 
     @classmethod
