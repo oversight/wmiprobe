@@ -1,4 +1,4 @@
 agentcoreclient==0.1.8
-aiowmi==0.1.18
+aiowmi==0.1.20
 setproctitle==1.2.2
 pywmitool>=0.1.3

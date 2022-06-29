@@ -22,7 +22,7 @@ DTYPS_NOT_NULL = {
 
 class Worker:
     def __init__(self):
-        self.queue = asyncio.Queue(maxsize=25)  # at least the number of checks
+        self.queue = asyncio.Queue(maxsize=30)  # at least the number of checks
         asyncio.ensure_future(self.worker())
 
     async def worker(self):
