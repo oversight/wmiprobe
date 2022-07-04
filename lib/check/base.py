@@ -71,14 +71,12 @@ class Base:
                 'checkInterval')
             assert interval is None or isinstance(interval, int)
         except Exception as e:
-            msg = f'invalid check configuration: `{e}`'
-            logging.error(msg)
-            raise ValueError(msg)
+            logging.error(f'invalid check configuration: `{e}`')
+            raise Exception('Invalid check configuration')
 
         if asset_config is None or 'credentials' not in asset_config:
-            msg = f'missing asset config for {asset_id} {ip4}'
-            logging.warning(msg)
-            raise LookupError(msg)
+            logging.warning(f'missing asset config for {asset_id} {ip4}')
+            raise Exception('Missing asset config')
 
         try:
             conn = Connection(ip4, **asset_config['credentials'])
