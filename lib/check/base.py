@@ -71,12 +71,14 @@ class Base:
                 'checkInterval')
             assert interval is None or isinstance(interval, int)
         except Exception as e:
-            logging.error(f'invalid check configuration: `{e}`')
-            return
+            msg = f'invalid check configuration: `{e}`'
+            logging.error(msg)
+            raise ValueError(msg)
 
         if asset_config is None or 'credentials' not in asset_config:
-            logging.warning(f'missing asset config for {asset_id} {ip4}')
-            return
+            msg = f'missing asset config for {asset_id} {ip4}'
+            logging.warning(msg)
+            raise LookupError(msg)
 
         try:
             conn = Connection(ip4, **asset_config['credentials'])
@@ -85,7 +87,7 @@ class Base:
             logging.error(
                 f'unable to connect to {asset_id} {ip4}; '
                 f'{e.__class__.__name__} {e}')
-            return
+            raise
 
         try:
             service = await conn.negotiate_ntlm()
@@ -94,7 +96,7 @@ class Base:
                 f'unable to authenticate {asset_id} {ip4}; '
                 f'{e.__class__.__name__} {e}')
             conn.close()
-            return
+            raise
 
         max_runtime = .8 * (interval or cls.interval)
         query = Query(cls.qry, namespace=cls.namespace)
