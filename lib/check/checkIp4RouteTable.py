@@ -11,7 +11,7 @@ class CheckIp4RouteTable(Base):
     FROM Win32_IP4RouteTable
     '''
     type_name = 'route'
-    interval = 7200
+    interval = 300
 
     @staticmethod
     def on_item(itm):

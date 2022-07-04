@@ -18,7 +18,7 @@ class CheckNetworkAdapter(Base):
     FROM Win32_NetworkAdapter
     '''
     type_name = 'adapter'
-    interval = 7200
+    interval = 300
 
     @staticmethod
     def on_item(itm):
