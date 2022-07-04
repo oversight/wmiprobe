@@ -87,7 +87,7 @@ class Base:
             logging.error(
                 f'unable to connect to {asset_id} {ip4}; '
                 f'{e.__class__.__name__} {e}')
-            raise
+            raise Exception('Unable to connect')
 
         try:
             service = await conn.negotiate_ntlm()
@@ -96,7 +96,7 @@ class Base:
                 f'unable to authenticate {asset_id} {ip4}; '
                 f'{e.__class__.__name__} {e}')
             conn.close()
-            raise
+            raise Exception('Unable to authenticate')
 
         max_runtime = .8 * (interval or cls.interval)
         query = Query(cls.qry, namespace=cls.namespace)
