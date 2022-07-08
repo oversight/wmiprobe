@@ -1,4 +1,30 @@
-from typing import Callable, List, Tuple
+import datetime
+from typing import Callable, List, Optional, Tuple, Union
+
+
+def parse_wmi_date(val, fmt: Optional[str] = '%Y%m%d') -> Union[int, None]:
+    if not val:
+        return None
+    try:
+        val = int(datetime.datetime.strptime(val, fmt).timestamp())
+        if val <= 0:
+            return None
+        return val
+    except Exception:
+        return None
+
+
+def parse_wmi_date_1600(val) -> Union[int, None]:
+    if not val:
+        return None
+    seconds1600 = 11644473600  # seconds from 1600
+    try:
+        val = int(val, 16) // 10000000 - seconds1600
+        if val <= 0:
+            return None
+        return val
+    except Exception:
+        return None
 
 
 def get_item(row: dict, name: str = 'Name') -> Tuple[str, dict]:

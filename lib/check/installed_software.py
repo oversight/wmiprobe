@@ -1,10 +1,8 @@
 from libprobe.asset import Asset
 from typing import Tuple
-from ..utils import get_state
+from ..utils import get_state, parse_wmi_date
 from ..wmiquery import wmiquery
-from .languageNames import LANGUAGE_NAMES
-from .utils import parse_wmi_date
-from .valueLookups import INSTALL_STATES_LU
+from ..values import INSTALL_STATES_LU, LANGUAGE_NAMES
 
 TYPE_NAME = "installed_software"
 QUERY = """

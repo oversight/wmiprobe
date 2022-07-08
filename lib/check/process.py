@@ -40,15 +40,15 @@ async def check_process(
             continue
         hash_dct = itms.pop(hash_name)
         itm = itms[name]
-        if 'processCount' in itm:
+        if 'ProcessCount' in itm:
             itm['processCount'] += 1
         else:
-            itm['processCount'] = 2  # this is the second instance
+            itm['ProcessCount'] = 2  # this is the second instance
         for ky in set(hash_dct) - NON_SUMMABLES:
             itm[ky] += hash_dct[ky]
 
     for itm in itms.values():
-        itm['privateBytesAvg'] = \
-            itm['privateBytes'] / itm.get('processCount', 1)
+        itm['PrivateBytesAvg'] = \
+            itm['PrivateBytes'] / itm.get('ProcessCount', 1)
 
     return state

@@ -12,7 +12,7 @@ QUERY = """
 """
 
 
-async def check_eventlog(
+async def check_nt_eventlog(
         asset: Asset,
         asset_config: dict,
         check_config: dict) -> dict:

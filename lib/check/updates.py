@@ -1,8 +1,7 @@
 from libprobe.asset import Asset
 from typing import Tuple
-from ..utils import get_state
+from ..utils import get_state, parse_wmi_date, parse_wmi_date_1600
 from ..wmiquery import wmiquery
-from .utils import parse_wmi_date, parse_wmi_date_1600
 
 
 TYPE_NAME = "updates"

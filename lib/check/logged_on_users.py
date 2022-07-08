@@ -30,7 +30,7 @@ def get_logonid(itm):
         return None
 
 
-async def check_logged_on_user(
+async def check_logged_on_users(
         asset: Asset,
         asset_config: dict,
         check_config: dict) -> dict:

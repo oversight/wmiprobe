@@ -2,7 +2,7 @@ from libprobe.asset import Asset
 from typing import Tuple
 from ..utils import get_state
 from ..wmiquery import wmiquery
-from .valueLookups import ACCESS_LU, CONFIG_MAN_ERR_CODE, DRIVE_TYPES
+from ..values import ACCESS_LU, CONFIG_MAN_ERR_CODE, DRIVE_TYPES
 
 
 TYPE_NAME = "volume"

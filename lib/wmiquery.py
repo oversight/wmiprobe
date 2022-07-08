@@ -1,5 +1,7 @@
+import asyncio
 import datetime
 import logging
+from collections import defaultdict
 from libprobe.asset import Asset
 from libprobe.exceptions import CheckException, IgnoreCheckException
 from aiowmi.query import Query
@@ -13,18 +15,59 @@ DTYPS_NOT_NULL = {
     int: 0,
     bool: False,
     float: 0.,
-    list: '[]',
+    list: [],
 }
 
 
-async def wmiquery(
+class Worker:
+    def __init__(self):
+        self.queue = asyncio.Queue(maxsize=30)  # at least the number of checks
+        asyncio.ensure_future(self.worker())
+
+    async def worker(self):
+        while True:
+            params, fut = await self.queue.get()
+            try:
+                res = await wmiquery_work(*params)
+            except Exception as e:
+                fut.set_exception(e)
+            else:
+                fut.set_result(res)
+            finally:
+                self.queue.task_done()
+
+
+_workers = defaultdict(Worker)
+
+
+def wmiquery(
+        asset: Asset,
+        asset_config: dict,
+        check_config: dict,
+        query_str: str,
+        namespace: str = 'root/cimv2') -> List[Dict]:
+    fut = asyncio.Future()
+
+    worker = _workers[asset.id]
+    logging.debug(f"Queue size for {asset.id} is {worker.queue.qsize()}")
+    try:
+        params = [asset, asset_config, check_config, query_str, namespace]
+        worker.queue.put_nowait([params, fut])
+    except asyncio.QueueFull:
+        raise asyncio.QueueFull('Queue for this asset is full')
+    return fut
+
+
+async def wmiquery_work(
         asset: Asset,
         asset_config: dict,
         check_config: dict,
         query_str: str,
         namespace: str = 'root/cimv2') -> List[Dict]:
     query = Query(query_str, namespace=namespace)
-    address = check_config['address']
+    address = check_config.get('address')
+    if not address:
+        address = asset.name
     assert asset_config, 'missing credentials'
 
     conn = Connection(address, **asset_config)
@@ -67,8 +110,6 @@ async def wmiquery(
                     row[name] = prop.value.timestamp()
                 elif isinstance(prop.value, datetime.timedelta):
                     row[name] = prop.value.seconds
-                # TODOK elif isinstance(prop.value, list):
-                #     row[name] = format_list(prop.value)
                 else:
                     row[name] = prop.value
 

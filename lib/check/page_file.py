@@ -16,7 +16,7 @@ def on_item(itm: dict) -> Tuple[str, dict]:
     total = itm['AllocatedBaseSize'] * 1024 * 1024
     used = itm['CurrentUsage'] * 1024 * 1024
     free = total - used
-    percentage = 100. * used / total if total else 0.
+    percentage = 100 * used / total if total else 0.
 
     return itm.pop('Name'), {
         'BytesTotal': total,

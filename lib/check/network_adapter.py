@@ -2,7 +2,7 @@ from libprobe.asset import Asset
 from typing import Tuple
 from ..utils import get_state
 from ..wmiquery import wmiquery
-from .valueLookups import AVAILABILITY_LU, CONFIG_MAN_ERR_CODE, STATUS_INFO
+from ..values import AVAILABILITY_LU, CONFIG_MAN_ERR_CODE, STATUS_INFO
 
 
 TYPE_NAME = "adapter"
