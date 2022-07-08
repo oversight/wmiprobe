@@ -24,7 +24,9 @@ async def wmiquery(
         query_str: str,
         namespace: str = 'root/cimv2') -> List[Dict]:
     query = Query(query_str, namespace=namespace)
-    address = check_config['address']
+    address = check_config.get('address')
+    if not address:
+        address = asset.name
     assert asset_config, 'missing credentials'
 
     conn = Connection(address, **asset_config)
