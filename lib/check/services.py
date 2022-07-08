@@ -1,18 +1,20 @@
 from libprobe.asset import Asset
-from ..utils import get_state
+from typing import Tuple
 from ..wmiquery import wmiquery
+from ..utils import get_state
 
 
-TYPE_NAME = "disk"
+TYPE_NAME = "services"
 QUERY = """
     SELECT
-    Name, DiskReadsPersec, DiskWritesPersec
-    FROM Win32_PerfFormattedData_PerfDisk_LogicalDisk
-    WHERE name != "_Total"
+    DesktopInteract, ExitCode, PathName, ServiceSpecificExitCode,
+    ServiceType, State, Status, Name, DisplayName, Description, ProcessId,
+    StartMode, StartName, Started
+    FROM Win32_Service
 """
 
 
-async def check_disk_io(
+async def check_services(
         asset: Asset,
         asset_config: dict,
         check_config: dict) -> dict:

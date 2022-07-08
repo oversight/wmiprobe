@@ -1,20 +1,21 @@
 from libprobe.asset import Asset
-from ..utils import get_state
+from typing import Tuple
 from ..wmiquery import wmiquery
+from ..utils import get_state
 
 
-TYPE_NAME = "cpu"
+TYPE_NAME = "eventlog"
 QUERY = """
     SELECT
-    Name, PercentProcessorTime
-    FROM Win32_PerfFormattedData_PerfOS_Processor
+    FileName, Name, NumberOfRecords, Status
+    FROM Win32_NTEventlogFile
 """
 
 
-async def check_cpu(
+async def check_eventlog(
         asset: Asset,
         asset_config: dict,
         check_config: dict) -> dict:
     rows = await wmiquery(asset, asset_config, check_config, QUERY)
-    state = get_state(TYPE_NAME, rows)  # Includes type cpuTotal
+    state = get_state(TYPE_NAME, rows)
     return state

@@ -3,16 +3,17 @@ from ..utils import get_state
 from ..wmiquery import wmiquery
 
 
-TYPE_NAME = "disk"
+TYPE_NAME = "interface"
 QUERY = """
     SELECT
-    Name, DiskReadsPersec, DiskWritesPersec
-    FROM Win32_PerfFormattedData_PerfDisk_LogicalDisk
-    WHERE name != "_Total"
+    BytesReceivedPersec, BytesSentPersec, CurrentBandwidth, Name,
+    PacketsOutboundDiscarded, PacketsOutboundErrors, PacketsReceivedDiscarded,
+    PacketsReceivedErrors, OutputQueueLength
+    FROM Win32_PerfFormattedData_Tcpip_NetworkInterface
 """
 
 
-async def check_disk_io(
+async def check_network_interface(
         asset: Asset,
         asset_config: dict,
         check_config: dict) -> dict:

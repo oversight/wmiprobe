@@ -1,8 +1,20 @@
+import datetime
+import logging
 from libprobe.asset import Asset
 from libprobe.exceptions import CheckException, IgnoreCheckException
 from aiowmi.query import Query
 from aiowmi.connection import Connection
+from aiowmi.exceptions import ServerNotOptimized, WbemStopIteration,\
+    WbemExInvalidClass, WbemExInvalidNamespace
 from typing import List, Dict
+
+
+DTYPS_NOT_NULL = {
+    int: 0,
+    bool: False,
+    float: 0.,
+    list: '[]',
+}
 
 
 async def wmiquery(
@@ -55,8 +67,8 @@ async def wmiquery(
                     row[name] = prop.value.timestamp()
                 elif isinstance(prop.value, datetime.timedelta):
                     row[name] = prop.value.seconds
-                elif isinstance(prop.value, list):
-                    row[name] = format_list(prop.value)
+                # TODOK elif isinstance(prop.value, list):
+                #     row[name] = format_list(prop.value)
                 else:
                     row[name] = prop.value
 

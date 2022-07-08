@@ -6,13 +6,15 @@ from ..wmiquery import wmiquery
 TYPE_NAME = "disk"
 QUERY = """
     SELECT
-    Name, DiskReadsPersec, DiskWritesPersec
-    FROM Win32_PerfFormattedData_PerfDisk_LogicalDisk
-    WHERE name != "_Total"
+    Name, AvgDiskQueueLength, AvgDiskReadQueueLength, AvgDiskWriteQueueLength,
+    CurrentDiskQueueLength, DiskReadBytesPersec, DiskReadsPersec,
+    DiskWriteBytesPersec, DiskWritesPersec, PercentDiskReadTime,
+    PercentDiskWriteTime
+    FROM Win32_PerfFormattedData_PerfDisk_PhysicalDisk
 """
 
 
-async def check_disk_io(
+async def check_disk_queue_length(
         asset: Asset,
         asset_config: dict,
         check_config: dict) -> dict:
