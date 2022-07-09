@@ -41,7 +41,7 @@ async def check_process(
         hash_dct = itms.pop(hash_name)
         itm = itms[name]
         if 'ProcessCount' in itm:
-            itm['processCount'] += 1
+            itm['ProcessCount'] += 1
         else:
             itm['ProcessCount'] = 2  # this is the second instance
         for ky in set(hash_dct) - NON_SUMMABLES:

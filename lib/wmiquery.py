@@ -49,12 +49,12 @@ def wmiquery(
     fut = asyncio.Future()
 
     worker = _workers[asset.id]
-    logging.debug(f"Queue size for {asset.id} is {worker.queue.qsize()}")
+    logging.debug(f"queue size: {worker.queue.qsize()}; {asset}")
     try:
         params = [asset, asset_config, check_config, query_str, namespace]
         worker.queue.put_nowait([params, fut])
     except asyncio.QueueFull:
-        raise asyncio.QueueFull('Queue for this asset is full')
+        raise asyncio.QueueFull('queue for this asset is full')
     return fut
 
 
@@ -69,8 +69,18 @@ async def wmiquery_work(
     if not address:
         address = asset.name
     assert asset_config, 'missing credentials'
+    username = asset_config['username']
+    password = asset_config['password']
+    if '\\' in username:
+        # Replace double back-slash with single if required
+        username = username.replace('\\\\', '\\')
+        domain, username = username.split('\\')
+    elif '@' in username:
+        username, domain = username.split('@')
+    else:
+        domain = ''
 
-    conn = Connection(address, **asset_config)
+    conn = Connection(address, username, password, domain)
     service = None
     rows = []
 
