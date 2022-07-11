@@ -1,3 +1,4 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
 from ..utils import get_state, parse_wmi_date
@@ -5,14 +6,14 @@ from ..wmiquery import wmiquery
 from ..values import INSTALL_STATES_LU, LANGUAGE_NAMES
 
 TYPE_NAME = "installed_software"
-QUERY = """
+QUERY = Query("""
     SELECT
     Description, InstallDate, InstallDate2, InstallLocation, InstallSource,
     InstallState, Language, Name, PackageCache, PackageCode, PackageName,
     ProductID, RegCompany, RegOwner, SKUNumber, Transforms, URLInfoAbout,
     URLUpdateInfo, Vendor, Version
     FROM Win32_Product
-"""
+""")
 
 
 def on_item(itm: dict) -> Tuple[str, dict]:

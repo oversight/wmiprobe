@@ -1,3 +1,4 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
 from ..utils import get_state
@@ -5,13 +6,12 @@ from ..wmiquery import wmiquery
 
 
 TYPE_NAME = ""
-QUERY = """
+QUERY = Query("""
     SELECT
     id, handle, temperature, thermalLevel, verClass, defaultMinTemperature,
     defaultMaxTemperature, type
     FROM ThermalProbe
-"""
-NAMESPACE = "root/cimv2/nv"
+""", namespace="root/cimv2/nv")
 
 THERMAL_LEVEL_LU = {
     '0': 'unknown',
@@ -32,6 +32,6 @@ async def check_nvidia_temperature(
         asset: Asset,
         asset_config: dict,
         check_config: dict) -> dict:
-    rows = await wmiquery(asset, asset_config, check_config, QUERY, NAMESPACE)
+    rows = await wmiquery(asset, asset_config, check_config, QUERY)
     state = get_state(TYPE_NAME, rows, on_item)
     return state

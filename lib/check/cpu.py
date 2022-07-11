@@ -1,14 +1,14 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from ..utils import get_state
 from ..wmiquery import wmiquery
 
-
 TYPE_NAME = "cpu"
-QUERY = """
+QUERY = Query("""
     SELECT
     Name, PercentProcessorTime
     FROM Win32_PerfFormattedData_PerfOS_Processor
-"""
+""")
 
 
 async def check_cpu(

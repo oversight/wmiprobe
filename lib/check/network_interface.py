@@ -1,16 +1,17 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from ..utils import get_state
 from ..wmiquery import wmiquery
 
 
 TYPE_NAME = "interface"
-QUERY = """
+QUERY = Query("""
     SELECT
     BytesReceivedPersec, BytesSentPersec, CurrentBandwidth, Name,
     PacketsOutboundDiscarded, PacketsOutboundErrors, PacketsReceivedDiscarded,
     PacketsReceivedErrors, OutputQueueLength
     FROM Win32_PerfFormattedData_Tcpip_NetworkInterface
-"""
+""")
 
 
 async def check_network_interface(

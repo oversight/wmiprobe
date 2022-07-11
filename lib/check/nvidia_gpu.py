@@ -1,3 +1,4 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
 from ..utils import get_state
@@ -5,7 +6,7 @@ from ..wmiquery import wmiquery
 
 
 TYPE_NAME = "gpu"
-QUERY = """
+QUERY = Query("""
     SELECT
     uname, archName, coreCount, count, deviceInfo, gpuCoreClockCurrent,
     handle, id, memoryBusWidth, memoryClockCurrent, memorySizeAvailable,
@@ -14,8 +15,7 @@ QUERY = """
     power, powerSampleCount, powerSamplingPeriod, productName,
     productType, ver, verVBIOS, videoCodec
     FROM Gpu
-"""
-NAMESPACE = "root/cimv2/nv"
+""", namespace="root/cimv2/nv")
 
 MEM_TYPE_LU = {
     '0': 'unknown',
@@ -67,6 +67,6 @@ async def check_nvidia_gpu(
         asset: Asset,
         asset_config: dict,
         check_config: dict) -> dict:
-    rows = await wmiquery(asset, asset_config, check_config, QUERY, NAMESPACE)
+    rows = await wmiquery(asset, asset_config, check_config, QUERY)
     state = get_state(TYPE_NAME, rows, on_item)
     return state

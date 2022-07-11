@@ -1,17 +1,18 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from ..utils import get_state
 from ..wmiquery import wmiquery
 
 
 TYPE_NAME = "disk"
-QUERY = """
+QUERY = Query("""
     SELECT
     Name, AvgDiskQueueLength, AvgDiskReadQueueLength, AvgDiskWriteQueueLength,
     CurrentDiskQueueLength, DiskReadBytesPersec, DiskReadsPersec,
     DiskWriteBytesPersec, DiskWritesPersec, PercentDiskReadTime,
     PercentDiskWriteTime
     FROM Win32_PerfFormattedData_PerfDisk_PhysicalDisk
-"""
+""")
 
 
 async def check_disk_queue_length(

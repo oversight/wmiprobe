@@ -1,3 +1,4 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
 from ..utils import get_state, parse_wmi_date, parse_wmi_date_1600
@@ -5,12 +6,12 @@ from ..wmiquery import wmiquery
 
 
 TYPE_NAME = "updates"
-QUERY = """
+QUERY = Query("""
     SELECT
     Description, Name, CSName, FixComments,
     HotFixID, InstalledBy, InstalledOn, ServicePackInEffect
     FROM Win32_QuickFixEngineering
-"""
+""")
 
 
 def on_item(itm: dict) -> Tuple[str, dict]:

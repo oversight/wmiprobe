@@ -1,15 +1,16 @@
 import logging
+from aiowmi.query import Query
 from collections import defaultdict
 from libprobe.asset import Asset
 from ..wmiquery import wmiquery
 
 
 TYPE_NAME = "users"
-QUERY = """
+QUERY = Query("""
     SELECT
     Antecedent, Dependent
     FROM Win32_LoggedOnUser
-"""
+""")
 
 
 def get_itemname(itm):

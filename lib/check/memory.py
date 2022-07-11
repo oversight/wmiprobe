@@ -1,3 +1,4 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
 from ..utils import get_state
@@ -5,11 +6,11 @@ from ..wmiquery import wmiquery
 
 
 TYPE_NAME = "memory"
-QUERY = """
+QUERY = Query("""
     SELECT
     Name, Caption, FreePhysicalMemory, TotalVisibleMemorySize
     FROM Win32_OperatingSystem
-"""
+""")
 
 
 def on_item(itm: dict) -> Tuple[str, dict]:

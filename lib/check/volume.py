@@ -1,3 +1,4 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
 from ..utils import get_state
@@ -6,7 +7,7 @@ from ..values import ACCESS_LU, CONFIG_MAN_ERR_CODE, DRIVE_TYPES
 
 
 TYPE_NAME = "volume"
-QUERY = """
+QUERY = Query("""
     SELECT
     Name, Access, Automount, BlockSize, Capacity,
     Compressed, ConfigManagerErrorCode, ConfigManagerUserConfig,
@@ -18,7 +19,7 @@ QUERY = """
     SystemName, SerialNumber, SupportsDiskQuotas,
     SupportsFileBasedCompression
     FROM Win32_Volume
-"""
+""")
 
 
 def on_item(itm: dict) -> Tuple[str, dict]:

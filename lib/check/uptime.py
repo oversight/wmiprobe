@@ -1,3 +1,4 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
 from ..wmiquery import wmiquery
@@ -5,11 +6,11 @@ from ..utils import get_state
 
 
 TYPE_NAME = "uptime"
-QUERY = """
+QUERY = Query("""
     SELECT
     SystemUpTime
     FROM Win32_PerfFormattedData_PerfOS_System
-"""
+""")
 
 
 def on_item(itm: dict) -> Tuple[str, dict]:

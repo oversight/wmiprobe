@@ -1,15 +1,16 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from ..utils import get_state
 from ..wmiquery import wmiquery
 
 
 TYPE_NAME = "disk"
-QUERY = """
+QUERY = Query("""
     SELECT
     Name, DiskReadsPersec, DiskWritesPersec
     FROM Win32_PerfFormattedData_PerfDisk_LogicalDisk
     WHERE name != "_Total"
-"""
+""")
 
 
 async def check_disk_io(

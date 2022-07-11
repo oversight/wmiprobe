@@ -1,3 +1,4 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
 from ..utils import get_state
@@ -6,13 +7,13 @@ from ..values import AVAILABILITY_LU, CONFIG_MAN_ERR_CODE, STATUS_INFO
 
 
 TYPE_NAME = "hardware"
-QUERY = """
+QUERY = Query("""
     SELECT
     Availability, ConfigManagerErrorCode, ConfigManagerUserConfig, Description,
     HardwareID, InstallDate, LastErrorCode, Manufacturer, PNPDeviceID,
     Service, Status, StatusInfo
     FROM Win32_PnPEntity
-"""
+""")
 
 
 def on_item(itm: dict) -> Tuple[str, dict]:

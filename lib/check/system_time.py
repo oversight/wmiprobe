@@ -1,5 +1,7 @@
+from aiowmi.query import Query
 import datetime
 import time
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
 from ..utils import get_state
@@ -7,11 +9,11 @@ from ..wmiquery import wmiquery
 
 
 TYPE_NAME = "system"
-QUERY = """
+QUERY = Query("""
     SELECT
     Year, Month, Day, Hour, Minute, Second
     FROM Win32_UTCTime
-"""
+""")
 
 
 def on_item(itm: dict) -> Tuple[str, dict]:

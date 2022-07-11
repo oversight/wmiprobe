@@ -1,10 +1,11 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from ..wmiquery import wmiquery
 from ..utils import get_state
 
 
 TYPE_NAME = "process"
-QUERY = """
+QUERY = Query("""
     SELECT
     Name, CreatingProcessID, ElapsedTime, HandleCount, IDProcess,
     PageFaultsPersec, PageFileBytes, PageFileBytesPeak, PercentPrivilegedTime,
@@ -12,7 +13,7 @@ QUERY = """
     PriorityBase, PrivateBytes, ThreadCount, VirtualBytes, VirtualBytesPeak,
     WorkingSet, WorkingSetPeak
     FROM Win32_PerfFormattedData_PerfProc_Process
-"""
+""")
 
 NON_SUMMABLES = {
     'Name',

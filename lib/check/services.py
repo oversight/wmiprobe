@@ -1,3 +1,4 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
 from ..wmiquery import wmiquery
@@ -5,13 +6,13 @@ from ..utils import get_state
 
 
 TYPE_NAME = "services"
-QUERY = """
+QUERY = Query("""
     SELECT
     DesktopInteract, ExitCode, PathName, ServiceSpecificExitCode,
     ServiceType, State, Status, Name, DisplayName, Description, ProcessId,
     StartMode, StartName, Started
     FROM Win32_Service
-"""
+""")
 
 
 async def check_services(

@@ -1,6 +1,7 @@
 import asyncio
 import datetime
 import logging
+from aiowmi.query import Query
 from collections import defaultdict
 from libprobe.asset import Asset
 from libprobe.exceptions import CheckException, IgnoreCheckException
@@ -19,52 +20,11 @@ DTYPS_NOT_NULL = {
 }
 
 
-class Worker:
-    def __init__(self):
-        self.queue = asyncio.Queue(maxsize=30)  # at least the number of checks
-        asyncio.ensure_future(self.worker())
-
-    async def worker(self):
-        while True:
-            params, fut = await self.queue.get()
-            try:
-                res = await wmiquery_work(*params)
-            except Exception as e:
-                fut.set_exception(e)
-            else:
-                fut.set_result(res)
-            finally:
-                self.queue.task_done()
-
-
-_workers = defaultdict(Worker)
-
-
-def wmiquery(
+async def wmiquery(
         asset: Asset,
         asset_config: dict,
         check_config: dict,
-        query_str: str,
-        namespace: str = 'root/cimv2') -> List[Dict]:
-    fut = asyncio.Future()
-
-    worker = _workers[asset.id]
-    logging.debug(f"queue size: {worker.queue.qsize()}; {asset}")
-    try:
-        params = [asset, asset_config, check_config, query_str, namespace]
-        worker.queue.put_nowait([params, fut])
-    except asyncio.QueueFull:
-        raise asyncio.QueueFull('queue for this asset is full')
-    return fut
-
-
-async def wmiquery_work(
-        asset: Asset,
-        asset_config: dict,
-        check_config: dict,
-        query_str: str,
-        namespace: str = 'root/cimv2') -> List[Dict]:
-    query = Query(query_str, namespace=namespace)
+        query: Query) -> List[Dict]:
     address = check_config.get('address')
     if not address:
         address = asset.name
@@ -95,37 +55,26 @@ async def wmiquery_work(
             service = await conn.negotiate_ntlm()
         except Exception as e:
             error_msg = str(e) or type(e).__name__
-            raise Exception(f'unable to authenticate: {error_msg}')
+            raise CheckException(f'unable to authenticate: {error_msg}')
 
-        await query.start(conn, service)
+        async with query.context(conn, service) as qc:
+            async for props in qc.results():
+                row = {}
+                for name, prop in props.items():
+                    if prop.value is None:
+                        row[name] = DTYPS_NOT_NULL.get(prop.get_type())
+                    elif isinstance(prop.value, datetime.datetime):
+                        row[name] = prop.value.timestamp()
+                    elif isinstance(prop.value, datetime.timedelta):
+                        row[name] = prop.value.seconds
+                    else:
+                        row[name] = prop.value
+                rows.append(row)
 
-        try:
-            await query.optimize()
-        except ServerNotOptimized:
-            logging.warning(f'server side is not optimized; {asset}')
-
-        while True:
-            try:
-                res = await query.next()
-            except WbemStopIteration:
-                break
-
-            props = res.get_properties()
-
-            row = {}
-            for name, prop in props.items():
-                if prop.value is None:
-                    row[name] = DTYPS_NOT_NULL.get(prop.get_type())
-                elif isinstance(prop.value, datetime.datetime):
-                    row[name] = prop.value.timestamp()
-                elif isinstance(prop.value, datetime.timedelta):
-                    row[name] = prop.value.seconds
-                else:
-                    row[name] = prop.value
-
-            rows.append(row)
     except (WbemExInvalidClass, WbemExInvalidNamespace):
         raise IgnoreCheckException
+    except CheckException:
+        raise  # Re-raise check exceptions
     except Exception as e:
         error_msg = str(e) or type(e).__name__
         # At this point log the exception as this can be useful for debugging
@@ -134,7 +83,6 @@ async def wmiquery_work(
         raise CheckException(error_msg)
     finally:
         if service is not None:
-            await query.done()
             service.close()
         conn.close()
 

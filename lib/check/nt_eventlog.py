@@ -1,3 +1,4 @@
+from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
 from ..wmiquery import wmiquery
@@ -5,11 +6,11 @@ from ..utils import get_state
 
 
 TYPE_NAME = "eventlog"
-QUERY = """
+QUERY = Query("""
     SELECT
     FileName, Name, NumberOfRecords, Status
     FROM Win32_NTEventlogFile
-"""
+""")
 
 
 async def check_nt_eventlog(
