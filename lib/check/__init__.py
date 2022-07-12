@@ -1,6 +1,7 @@
 from .checkDiskIo import CheckDiskIo
 from .checkDiskQueueLength import CheckDiskQueueLength
 from .checkExchangeQueue import CheckExchangeQueue
+from .checkFiles import CheckFiles
 from .checkICAlatency import CheckICAlatency
 from .checkInstalledSoftware import CheckInstalledSoftware
 from .checkInterface import CheckInterface
@@ -29,6 +30,7 @@ CHECKS = {
     'CheckDiskIo': CheckDiskIo,
     'CheckDiskQueueLength': CheckDiskQueueLength,
     'CheckExchangeQueue': CheckExchangeQueue,
+    'CheckFiles': CheckFiles,
     'CheckICAlatency': CheckICAlatency,
     'CheckInstalledSoftware': CheckInstalledSoftware,
     'CheckInterface': CheckInterface,
