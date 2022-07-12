@@ -70,7 +70,8 @@ async def wmiquery(
                     else:
                         row[name] = prop.value
                 rows.append(row)
-
+    except IgnoreCheckException:
+        raise
     except (WbemExInvalidClass, WbemExInvalidNamespace):
         raise IgnoreCheckException
     except CheckException:

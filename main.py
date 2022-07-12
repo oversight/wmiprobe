@@ -4,6 +4,7 @@ from lib.check.cpu import check_cpu
 from lib.check.disk_io import check_disk_io
 from lib.check.disk_queue_length import check_disk_queue_length
 from lib.check.exchange_queue import check_exchange_queue
+from lib.check.files import check_files
 from lib.check.ica_session import check_ica_session
 from lib.check.installed_software import check_installed_software
 from lib.check.ip4_route_table import check_ip4_route_table
@@ -34,6 +35,7 @@ if __name__ == '__main__':
         'disk_io': check_disk_io,
         'disk_queue_length': check_disk_queue_length,
         'exchange_queue': check_exchange_queue,
+        'files': check_files,
         'ica_session': check_ica_session,
         'installed_software': check_installed_software,
         'ip4_route_table': check_ip4_route_table,
@@ -43,8 +45,8 @@ if __name__ == '__main__':
         'network_interface': check_network_interface,
         'nt_domain': check_nt_domain,
         'nt_eventlog': check_nt_eventlog,
-        'nvidia_gpu': check_nvidia_gpu,
         'nvidia_gpu_temperature': check_nvidia_temperature,
+        'nvidia_gpu': check_nvidia_gpu,
         'os_memory': check_os_memory,
         'page_file': check_page_file,
         'pnp_entity': check_pnp_entity,
