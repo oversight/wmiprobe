@@ -1,3 +1,4 @@
+import re
 from agentcoreclient import IgnoreResultException
 from aiowmi.query import Query
 
@@ -18,7 +19,12 @@ class CheckCimDatafile(Base):  # TODO what check_name should this check get?
         SELECT Name, LastAccessed, LastModified, FileSize, Readable, \
         Writeable, Hidden, System FROM cim_datafile\
         '''
-        files = [f'name=\'{file}\'' for file in files]
+
+        # This sub will guarantee that the `file` string is created with 4
+        # backslashes, in the `join` the 4 are escaped to 2, which are required
+        # in the `Query`.
+        files = ['name=\'' + re.sub(r"\\+", "\\\\\\\\", file) + '}\''
+            for file in files]
         where_itms = ' OR '.join(files)
         qry = f'{select_from} WHERE {where_itms}'
         return Query(qry, namespace=cls.namespace)
