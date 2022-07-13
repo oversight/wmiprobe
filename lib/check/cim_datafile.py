@@ -3,7 +3,7 @@ from libprobe.asset import Asset
 from libprobe.exceptions import IgnoreCheckException
 from typing import Tuple
 
-from ..utils import get_state, parse_wmi_date
+from ..utils import get_state
 from ..wmiquery import wmiquery
 
 
@@ -14,8 +14,8 @@ def on_item(itm: dict) -> Tuple[str, dict]:
     return {
         'fileSize': itm['FileSize'],  # int
         'hidden': itm['Hidden'],  # bool
-        'lastAccessed': parse_wmi_date(itm['LastAccessed']),  # time?
-        'lastModified': parse_wmi_date(itm['LastModified']),  # time?
+        'lastAccessed': int(itm['LastAccessed']),  # time?
+        'lastModified': int(itm['LastModified']),  # time?
         'name': itm['Name'],  # str
         'readable': itm['Readable'],  # bool
         'system': itm['System'],  # bool
