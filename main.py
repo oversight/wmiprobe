@@ -4,7 +4,7 @@ from lib.check.cpu import check_cpu
 from lib.check.disk_io import check_disk_io
 from lib.check.disk_queue_length import check_disk_queue_length
 from lib.check.exchange_queue import check_exchange_queue
-from lib.check.files import check_files
+from lib.check.cim_datafile import cim_datafile
 from lib.check.ica_session import check_ica_session
 from lib.check.installed_software import check_installed_software
 from lib.check.ip4_route_table import check_ip4_route_table
@@ -35,7 +35,7 @@ if __name__ == '__main__':
         'disk_io': check_disk_io,
         'disk_queue_length': check_disk_queue_length,
         'exchange_queue': check_exchange_queue,
-        'files': check_files,
+        'cim_datafile': check_cim_datafile,
         'ica_session': check_ica_session,
         'installed_software': check_installed_software,
         'ip4_route_table': check_ip4_route_table,

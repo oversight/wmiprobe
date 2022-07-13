@@ -7,7 +7,7 @@ from ..utils import get_state, parse_wmi_date
 from ..wmiquery import wmiquery
 
 
-TYPE_NAME = "files"  # TODO what type_name should this check get?
+TYPE_NAME = "cim_datafile"  # TODO what type_name should this check get?
 
 
 def on_item(itm: dict) -> Tuple[str, dict]:
@@ -23,7 +23,7 @@ def on_item(itm: dict) -> Tuple[str, dict]:
     }
 
 
-async def check_files(  # TODO what check_name should this check get?
+async def check_cim_datafile(  # TODO what check_name should this check get?
         asset: Asset,
         asset_config: dict,
         check_config: dict) -> dict:
@@ -32,7 +32,7 @@ async def check_files(  # TODO what check_name should this check get?
     files = check_config.get('files')
     if not files:
         raise IgnoreCheckException(
-            f'{check_files.__name__} did not run; no files are provided')
+            f'{check_cim_datafile.__name__} did not run; no files are provided')
 
     select_from = '''\
     SELECT Name, LastAccessed, LastModified, FileSize, Readable, \
