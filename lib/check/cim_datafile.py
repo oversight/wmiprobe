@@ -1,3 +1,5 @@
+import re
+
 from aiowmi.query import Query
 from libprobe.asset import Asset
 from libprobe.exceptions import IgnoreCheckException
@@ -38,9 +40,13 @@ async def check_cim_datafile(  # TODO what check_name should this check get?
     SELECT Name, LastAccessed, LastModified, FileSize, Readable, \
     Writeable, Hidden, System FROM cim_datafile\
     '''
-    files = [f'name=\'{file}\'' for file in files]
+    # This sub will guarantee that the `file` string is created with 4
+    # backslashes, in the `join` the 4 are escaped to 2, which are required
+    # in the `Query`.
+    files = ['name=\'' + re.sub(r"\\+", "\\\\\\\\", file) + '\''
+        for file in files]
     where_itms = ' OR '.join(files)
-    qry = f'{select_from} WHERE {where_itms}'
+    qry = select_from + ' WHERE ' + where_itms
     rows = await wmiquery(asset, asset_config, check_config, Query(qry))
     state = get_state(TYPE_NAME, rows, on_item)
     return state
