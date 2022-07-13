@@ -2,7 +2,6 @@ from agentcoreclient import IgnoreResultException
 from aiowmi.query import Query
 
 from .base import Base
-from .utils import parse_wmi_date
 
 
 class CheckCimDatafile(Base):  # TODO what check_name should this check get?
@@ -29,8 +28,8 @@ class CheckCimDatafile(Base):  # TODO what check_name should this check get?
         return {
             'fileSize': itm['FileSize'],  # int
             'hidden': itm['Hidden'],  # bool
-            'lastAccessed': parse_wmi_date(itm['LastAccessed']),  # time?
-            'lastModified': parse_wmi_date(itm['LastModified']),  # time?
+            'lastAccessed': int(itm['LastAccessed']),  # time?
+            'lastModified': int(itm['LastModified']),  # time?
             'name': itm['Name'],  # str
             'readable': itm['Readable'],  # bool
             'system': itm['System'],  # bool
