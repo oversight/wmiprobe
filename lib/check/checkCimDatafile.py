@@ -23,7 +23,7 @@ class CheckCimDatafile(Base):  # TODO what check_name should this check get?
         # This sub will guarantee that the `file` string is created with 4
         # backslashes, in the `join` the 4 are escaped to 2, which are required
         # in the `Query`.
-        files = ['name=\'' + re.sub(r"\\+", "\\\\\\\\", file) + '\''
+        files = ['name=\'' + re.sub(r"\\+", r"\\\\", file) + '\''
             for file in files]
         where_itms = ' OR '.join(files)
         qry = f'{select_from} WHERE {where_itms}'
@@ -41,14 +41,3 @@ class CheckCimDatafile(Base):  # TODO what check_name should this check get?
             'system': itm['System'],  # bool
             'writeable': itm['Writeable'],  # bool
         }
-
-# Example output:
-
-# FileSize: 738197504
-# Hidden: True
-# LastAccessed: 2022-06-15 23:58:22.954782+02:00
-# LastModified: 2022-06-15 23:58:22.954782+02:00
-# Name: c:\pagefile.sys
-# Readable: True
-# System: True
-# Writeable: True

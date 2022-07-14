@@ -98,14 +98,13 @@ class Base:
             raise Exception('Unable to authenticate')
 
         max_runtime = .8 * (interval or cls.interval)
+        query = cls._get_query(data)
+
         try:
-            query = cls._get_query(data)
             state_data = await asyncio.wait_for(
                 cls.get_data(conn, service, query),
                 timeout=max_runtime
             )
-        except IgnoreResultException:
-            raise
         except (WbemExInvalidClass, WbemExInvalidNamespace):
             # ignore invalid class and namespace errors
             # for citrix, exchange and nvidia checks
