@@ -102,7 +102,7 @@ class Base:
 
         try:
             state_data = await asyncio.wait_for(
-                cls.get_data(conn, service, query),
+                cls.get_data(conn, service, query, data),
                 timeout=max_runtime
             )
         except (WbemExInvalidClass, WbemExInvalidNamespace):
@@ -125,7 +125,7 @@ class Base:
         return Query(cls.qry, namespace=cls.namespace)
 
     @classmethod
-    async def get_data(cls, conn, service, query):
+    async def get_data(cls, conn, service, query, data):
         wmi_data = []
         try:
             await query.start(conn, service)
@@ -165,7 +165,7 @@ class Base:
             raise
 
         try:
-            state = cls.iterate_results(wmi_data)
+            state = cls.iterate_results(wmi_data, data)
         except Exception:
             logging.exception('WMI parse error\n')
             raise
