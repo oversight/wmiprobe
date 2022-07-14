@@ -3,6 +3,7 @@ from aiowmi.query import Query
 from collections import defaultdict
 from libprobe.asset import Asset
 from ..wmiquery import wmiquery
+from ..utils import add_total_item
 
 
 TYPE_NAME = "users"
@@ -43,18 +44,15 @@ async def check_logged_on_users(
         logon_id = get_logonid(itm)
         name_login[name].append(logon_id)
 
-    return {
+    state = {
         TYPE_NAME: {
             name: {
-                'logonIds': logon_ids,
-                'sessionCount': len(logon_ids)
+                'LogonIds': logon_ids,
+                'SessionCount': len(logon_ids)
             }
             for name, logon_ids in name_login.items()
-        },
-        # TODO proper type, itm and metric name
-        f'{TYPE_NAME}Total': {
-            '_Total': {
-                'count': len(rows)
-            }
         }
     }
+    add_total_item(state, {'Count': len(rows)}, TYPE_NAME)
+
+    return state

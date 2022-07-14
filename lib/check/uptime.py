@@ -16,7 +16,7 @@ QUERY = Query("""
 def on_item(itm: dict) -> Tuple[str, dict]:
     # TODO proper item and metric names
     return 'system', {
-        'uptime': itm['SystemUpTime']
+        'Uptime': itm['SystemUpTime']
     }
 
 

@@ -14,15 +14,15 @@ TYPE_NAME = "cim_datafile"
 
 
 def on_item(itm: dict) -> Tuple[str, dict]:
-    return {
-        'fileSize': itm['FileSize'],  # int
-        'hidden': itm['Hidden'],  # bool
-        'lastAccessed': int(itm['LastAccessed']),  # time?
-        'lastModified': int(itm['LastModified']),  # time?
-        'readable': itm['Readable'],  # bool
-        'system': itm['System'],  # bool
-        'writeable': itm['Writeable'],  # bool
-        'exists': True,  # bool
+    return itm['Name'], {
+        'FileSize': itm['FileSize'],  # int
+        'Hidden': itm['Hidden'],  # bool
+        'LastAccessed': int(itm['LastAccessed']),  # time?
+        'LastModified': int(itm['LastModified']),  # time?
+        'Readable': itm['Readable'],  # bool
+        'System': itm['System'],  # bool
+        'Writeable': itm['Writeable'],  # bool
+        'Exists': True,  # bool
     }
 
 
@@ -31,8 +31,7 @@ async def check_cim_datafile(
         asset_config: dict,
         check_config: dict) -> dict:
 
-    # TODO camelcase or snakecase
-    cim_datafiles = check_config.get('cimDatafiles')
+    cim_datafiles = check_config.get('cim_datafiles')
     if not cim_datafiles:
         raise IgnoreCheckException()
 
@@ -57,6 +56,6 @@ async def check_cim_datafile(
     # Append non-existing files to the state
     for fn in cim_datafiles:
         if fn not in type_state:
-            type_state[fn] = {'exists': False}
+            type_state[fn] = {'Exists': False}
 
     return state

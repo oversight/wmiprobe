@@ -1,7 +1,7 @@
 from aiowmi.query import Query
 from libprobe.asset import Asset
 from typing import Tuple
-from ..utils import get_state
+from ..utils import get_state, add_total_item
 from ..wmiquery import wmiquery
 
 
@@ -32,14 +32,10 @@ async def check_page_file(
         asset_config: dict,
         check_config: dict) -> dict:
     rows = await wmiquery(asset, asset_config, check_config, QUERY)
-
-    # aggregate (check dus not return a _Total item)
-    total_itm = {
-        'Name': '_Total',
+    state = get_state(TYPE_NAME, rows, on_item)
+    total = {
         'AllocatedBaseSize': sum(itm['AllocatedBaseSize'] for itm in rows),
         'CurrentUsage': sum(itm['CurrentUsage'] for itm in rows),
     }
-    rows.append(total_itm)
-
-    state = get_state(TYPE_NAME, rows, on_item)
+    add_total_item(state, total, TYPE_NAME)
     return state

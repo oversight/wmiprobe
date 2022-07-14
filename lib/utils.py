@@ -33,6 +33,11 @@ def get_item(row: dict, name: str = 'Name') -> Tuple[str, dict]:
     return row.pop(name), row
 
 
+def add_total_item(state: dict, total_item: dict, type_name: str):
+    """Add a new Type to the state with a single item: `total`"""
+    state[f"{type_name}Total"] = {'total': total_item}
+
+
 def get_state(
         type_name: str,
         rows: List[dict],
@@ -46,6 +51,6 @@ def get_state(
     # create a new type ending with Total;
     total = state[type_name].pop('_Total', None)
     if total is not None:
-        state[f"{type_name}Total"] = total
+        add_total_item(state, total, type_name)
 
     return state
