@@ -64,7 +64,10 @@ class CheckCimDatafile(Base):
         if cim_datafiles:
             for fn in cim_datafiles:
                 if fn not in itms:
-                    itms[fn] = {'exists': False}
+                    itms[fn] = {
+                        'name': fn,  # str
+                        'exists': False,  # bool
+                    }
 
         state = {}
         state[cls.type_name] = itms
