@@ -12,7 +12,7 @@ class CheckWindowsCountRemoteUsers(Base):
     type_name = 'remote_users'
 
     @classmethod
-    def iterate_results(cls, wmi_data):
+    def iterate_results(cls, wmi_data, data=None):
         user_count = len(wmi_data) - 1
         return {
             cls.type_name: [{'name': 'system', 'userCount': user_count}]

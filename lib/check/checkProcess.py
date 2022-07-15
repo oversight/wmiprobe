@@ -52,7 +52,7 @@ class CheckProcess(Base):
         }
 
     @classmethod
-    def iterate_results(cls, wmi_data):
+    def iterate_results(cls, wmi_data, data=None):
         itms = cls.on_items(wmi_data)
         total_itm = itms.pop('_Total')
 

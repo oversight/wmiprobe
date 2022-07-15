@@ -121,7 +121,7 @@ class Base:
             conn.close()
 
     @classmethod
-    def _get_query(cls):
+    def _get_query(cls, data=None):
         return Query(cls.qry, namespace=cls.namespace)
 
     @classmethod
@@ -186,7 +186,7 @@ class Base:
         return out
 
     @classmethod
-    def iterate_results(cls, wmi_data):
+    def iterate_results(cls, wmi_data, data=None):
         itms = cls.on_items(wmi_data)
 
         state = {}

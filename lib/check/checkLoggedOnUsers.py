@@ -32,7 +32,7 @@ class CheckLoggedOnUsers(Base):
             return None
 
     @classmethod
-    def iterate_results(cls, wmi_data):
+    def iterate_results(cls, wmi_data, data=None):
         name_login = defaultdict(list)
         for itm in wmi_data:
             name = cls._get_itemname(itm)

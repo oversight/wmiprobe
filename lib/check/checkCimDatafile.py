@@ -11,7 +11,7 @@ class CheckCimDatafile(Base):
     @classmethod
     def _get_query(cls, data):
         cim_datafiles = data.get('cimDatafiles')
-        if not files:
+        if not cim_datafiles:
             raise IgnoreResultException(
                 f'{cls.__name__} did not run; no files are provided')
 
