@@ -2,6 +2,7 @@ import asyncio
 import datetime
 import logging
 from collections import defaultdict
+from agentcoreclient import IgnoreResultException
 from aiowmi.connection import Connection
 from aiowmi.exceptions import WbemExInvalidClass
 from aiowmi.exceptions import WbemExInvalidNamespace
@@ -97,10 +98,11 @@ class Base:
             raise Exception('Unable to authenticate')
 
         max_runtime = .8 * (interval or cls.interval)
-        query = Query(cls.qry, namespace=cls.namespace)
+        query = cls._get_query(data)
+
         try:
             state_data = await asyncio.wait_for(
-                cls.get_data(conn, service, query),
+                cls.get_data(conn, service, query, data),
                 timeout=max_runtime
             )
         except (WbemExInvalidClass, WbemExInvalidNamespace):
@@ -119,7 +121,11 @@ class Base:
             conn.close()
 
     @classmethod
-    async def get_data(cls, conn, service, query):
+    def _get_query(cls, data=None):
+        return Query(cls.qry, namespace=cls.namespace)
+
+    @classmethod
+    async def get_data(cls, conn, service, query, data):
         wmi_data = []
         try:
             await query.start(conn, service)
@@ -159,7 +165,7 @@ class Base:
             raise
 
         try:
-            state = cls.iterate_results(wmi_data)
+            state = cls.iterate_results(wmi_data, data)
         except Exception:
             logging.exception('WMI parse error\n')
             raise
@@ -180,7 +186,7 @@ class Base:
         return out
 
     @classmethod
-    def iterate_results(cls, wmi_data):
+    def iterate_results(cls, wmi_data, data=None):
         itms = cls.on_items(wmi_data)
 
         state = {}

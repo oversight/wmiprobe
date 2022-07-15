@@ -35,7 +35,7 @@ class CheckUpdates(Base):
         }
 
     @classmethod
-    def iterate_results(cls, wmi_data):
+    def iterate_results(cls, wmi_data, data=None):
         state = {}
         state[cls.type_name] = itms = cls.on_items(wmi_data)
         last = None
