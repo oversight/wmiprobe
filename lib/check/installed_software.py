@@ -16,7 +16,7 @@ QUERY = Query("""
 """)
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
+def on_item(itm: dict) -> dict:
     try:
         language = int(itm['Language'])
         language_name = LANGUAGE_NAMES.get(language, language)
@@ -28,7 +28,8 @@ def on_item(itm: dict) -> Tuple[str, dict]:
     install_state = INSTALL_STATES_LU.get(
         install_state_number, install_state_number)
 
-    return itm.pop('PackageCode'), {
+    itm['name'] = itm.pop('PackageCode')
+    return {
         **itm,
         'InstallDate': install_date,
         'InstallState': install_state,

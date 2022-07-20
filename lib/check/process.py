@@ -32,15 +32,18 @@ async def check_process(
         check_config: dict) -> dict:
     rows = await wmiquery(asset, asset_config, check_config, QUERY)
     state = get_state(TYPE_NAME, rows)
+    item_dict = {
+        item['name']: item
+        for item in state[TYPE_NAME]
+    }
 
-    itms = state[TYPE_NAME]
-    hash_names = [name for name in itms if '#' in name]
+    hash_names = [name for item in item_dict if '#' in name]
     for hash_name in hash_names:
         name = hash_name.split('#')[0]
-        if name not in itms:
+        if name not in item_dict:
             continue
-        hash_dct = itms.pop(hash_name)
-        itm = itms[name]
+        hash_dct = item_dict.pop(hash_name)
+        itm = item_dict[name]
         if 'ProcessCount' in itm:
             itm['ProcessCount'] += 1
         else:
@@ -48,8 +51,11 @@ async def check_process(
         for ky in set(hash_dct) - NON_SUMMABLES:
             itm[ky] += hash_dct[ky]
 
-    for itm in itms.values():
+    for itm in item_dict.values():
         itm['PrivateBytesAvg'] = \
             itm['PrivateBytes'] / itm.get('ProcessCount', 1)
+
+    # re-write item list, some might have been popped
+    state[TYPE_NAME] = list(item_dict.values())
 
     return state

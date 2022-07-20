@@ -22,13 +22,15 @@ QUERY = Query("""
 """)
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
+def on_item(itm: dict) -> dict:
     free = itm['FreeSpace']
     total = itm['Capacity']
     used = total - free
     pct = 100. * used / total if total else 0.
 
-    return itm.pop('Name'), {
+    itm['name'] = itm.pop('Name')
+
+    return {
         **itm,
         'Access': ACCESS_LU.get(itm['Access']),
         'ConfigManagerErrorCode':

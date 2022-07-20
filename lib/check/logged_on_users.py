@@ -45,13 +45,11 @@ async def check_logged_on_users(
         name_login[name].append(logon_id)
 
     state = {
-        TYPE_NAME: {
-            name: {
-                'LogonIds': logon_ids,
-                'SessionCount': len(logon_ids)
-            }
-            for name, logon_ids in name_login.items()
-        }
+        TYPE_NAME: [{
+            'name': name,
+            'LogonIds': logon_ids,
+            'SessionCount': len(logon_ids)
+        } for name, logon_ids in name_login.items()]
     }
     add_total_item(state, {'Count': len(rows)}, TYPE_NAME)
 

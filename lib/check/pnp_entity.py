@@ -16,8 +16,9 @@ QUERY = Query("""
 """)
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
-    return itm.pop('PNPDeviceID'), {
+def on_item(itm: dict) -> dict:
+    itm['name'] = itm.pop('PNPDeviceID')
+    return {
         **itm,
         'Availability': AVAILABILITY_LU.get(itm['Availability']),
         'ConfigManagerErrorCode':

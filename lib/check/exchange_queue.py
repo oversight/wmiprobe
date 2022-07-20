@@ -12,7 +12,7 @@ QUERY = Query("""
 """)
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
+def on_item(itm: dict) -> dict:
     """Parse item.
 
     We lack information about the Win32_PerfFormattedData_MSExch.. class.
@@ -46,7 +46,8 @@ def on_item(itm: dict) -> Tuple[str, dict]:
     if a is not None and b is not None:
         itm['LargestDeliveryQueueLength'] = a + b
 
-    return itm.pop('Name'), itm
+    itm['name'] = itm.pop('Name')
+    return itm
 
 
 async def check_exchange_queue(

@@ -21,8 +21,9 @@ THERMAL_LEVEL_LU = {
 }
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
-    return itm.pop('id'), {
+def on_item(itm: dict) -> dict:
+    itm['name'] = itm.pop('id')
+    return {
         **itm,
         'thermalLevel': THERMAL_LEVEL_LU.get(itm['thermalLevel']),
     }

@@ -27,30 +27,34 @@ def parse_wmi_date_1600(val) -> Union[int, None]:
         return None
 
 
-def get_item(row: dict, name: str = 'Name') -> Tuple[str, dict]:
+def get_item(row: dict, name: str = 'Name') -> dict:
     """This is the default get item function. It requires at least that Name
     is a key in the row data."""
-    return row.pop(name), row
+    row['name'] = row.pop(name)
+    return row
 
 
 def add_total_item(state: dict, total_item: dict, type_name: str):
     """Add a new Type to the state with a single item: `total`"""
-    state[f"{type_name}Total"] = {'total': total_item}
+    total_item['name'] = 'total'
+    state[f"{type_name}Total"] = [total_item]
 
 
 def get_state(
         type_name: str,
         rows: List[dict],
-        on_item: Callable[[dict], Tuple[str, dict]] = get_item) -> dict:
+        on_item: Callable[[dict], dict] = get_item) -> dict:
     """Default get_state function."""
-    state = {
-        type_name: dict((on_item(row) for row in rows))
-    }
 
-    # For some queries a Name='_Total' item exists. In this case we want to
-    # create a new type ending with Total;
-    total = state[type_name].pop('_Total', None)
-    if total is not None:
-        add_total_item(state, total, type_name)
+    item_list = []
+    state = {type_name: item_list}
 
-    return state
+    for row in rows:
+        item = on_item(row)
+
+        # For some queries a Name='_Total' item exists. In this case we want to
+        # create a new type ending with Total;
+        if item['name'] == '_Total':
+            add_total_item(state, item, type_name)
+        else:
+            item_list.append(item)

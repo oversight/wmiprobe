@@ -13,8 +13,9 @@ from ..wmiquery import wmiquery
 TYPE_NAME = "cim_datafile"
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
-    return itm['Name'], {
+def on_item(itm: dict) -> dict:
+    return {
+        'name': itm['Name'],  # str
         'FileSize': itm['FileSize'],  # int
         'Hidden': itm['Hidden'],  # bool
         'LastAccessed': int(itm['LastAccessed']),  # time?
@@ -22,7 +23,7 @@ def on_item(itm: dict) -> Tuple[str, dict]:
         'Readable': itm['Readable'],  # bool
         'System': itm['System'],  # bool
         'Writeable': itm['Writeable'],  # bool
-        'Exists': True,  # bool
+        'Exists': True,  # itm['Name'], {bool
     }
 
 
@@ -51,11 +52,15 @@ async def check_cim_datafile(
 
     rows = await wmiquery(asset, asset_config, check_config, Query(qry))
     state = get_state(TYPE_NAME, rows, on_item)
-    type_state = state[TYPE_NAME]
+    item_list = state[TYPE_NAME]
+    names = set(item['name'] for item in item_list)
 
     # Append non-existing files to the state
     for fn in cim_datafiles:
-        if fn not in type_state:
-            type_state[fn] = {'Exists': False}
+        if fn not in names:
+            item_list.append({
+                'name': fn,
+                'Exists': False
+            })
 
     return state

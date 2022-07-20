@@ -13,9 +13,10 @@ QUERY = Query("""
 """)
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
+def on_item(itm: dict) -> dict:
     # TODO proper item and metric names
-    return 'system', {
+    return {
+        'name': 'system',
         'Uptime': itm['SystemUpTime']
     }
 

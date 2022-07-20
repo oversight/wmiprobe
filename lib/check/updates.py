@@ -14,7 +14,7 @@ QUERY = Query("""
 """)
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
+def on_item(itm: dict) -> dict:
     # InstalledOn can be multiple datestring formats or windows timestamp
     # i.e. (nanoseconds from 1600)
     installed_on_str = itm['InstalledOn']
@@ -23,7 +23,8 @@ def on_item(itm: dict) -> Tuple[str, dict]:
         parse_wmi_date(installed_on_str) or \
         parse_wmi_date_1600(installed_on_str)
 
-    return itm.pop('HotFixID'), {
+    itm['name'] = itm.pop('HotFixID')
+    return {
         **itm,
         'InstalledOn': installed_on,
     }

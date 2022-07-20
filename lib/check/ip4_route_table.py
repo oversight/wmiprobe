@@ -15,8 +15,9 @@ QUERY = Query("""
 """)
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
-    return '{Destination} [{InterfaceIndex}]'.format_map(itm), itm
+def on_item(itm: dict) -> dict:
+    itm['name'] = '{Destination} [{InterfaceIndex}]'.format_map(itm)
+    return itm
 
 
 async def check_ip4_route_table(

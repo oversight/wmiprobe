@@ -14,9 +14,10 @@ QUERY = Query("""
 """)
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
+def on_item(itm: dict) -> dict:
     itm['DomainControllerName'] = itm['DomainControllerName'].strip('\\\\')
-    return itm.pop('DomainName'), itm
+    itm['name'] = itm.pop('DomainName')
+    return itm
 
 
 async def check_nt_domain(

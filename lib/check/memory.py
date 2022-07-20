@@ -8,19 +8,22 @@ from ..wmiquery import wmiquery
 TYPE_NAME = "memory"
 QUERY = Query("""
     SELECT
-    Name, Caption, FreePhysicalMemory, TotalVisibleMemorySize
+    Caption, FreePhysicalMemory, TotalVisibleMemorySize
     FROM Win32_OperatingSystem
 """)
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
+def on_item(itm: dict) -> dict:
+    # TODO : Why rename OsVersion? and we used to get Name as well, why?
+    #
     free = itm['FreePhysicalMemory']
     total = itm['TotalVisibleMemorySize']
     used = total - free
     pct = 100. * used / total if total else 0.
 
-    return 'memory', {
+    return {
         **itm,
+        'name': 'memory',
         'OsVersion': itm.pop('Caption').strip(),
         'PercentUsed': pct,
     }

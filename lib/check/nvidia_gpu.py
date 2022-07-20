@@ -41,14 +41,16 @@ PROD_TYPE_LU = {
 }
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
+def on_item(itm: dict) -> dict:
     gpu_freq = itm['gpuCoreClockCurrent']
     gpu_freq = gpu_freq if gpu_freq != -1 else None
 
     mem_freq = itm['memoryClockCurrent']
     mem_freq = mem_freq if mem_freq != -1 else None
 
-    return itm.pop('uname'), {
+    itm['name'] = itm.pop('uname')
+
+    return {
         **itm,
         'gpuCoreClockCurrent': gpu_freq,
         'memoryClockCurrent': mem_freq,

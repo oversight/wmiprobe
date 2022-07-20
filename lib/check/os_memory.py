@@ -13,8 +13,9 @@ QUERY = Query("""
 """)
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
-    return 'memory', itm
+def on_item(itm: dict) -> dict:
+    itm['name'] = 'memory'
+    return itm
 
 
 async def check_os_memory(

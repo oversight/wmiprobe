@@ -16,7 +16,7 @@ QUERY = Query("""
 """)
 
 
-def on_item(itm: dict) -> Tuple[str, dict]:
+def on_item(itm: dict) -> dict:
     remote_ts = datetime.datetime(
         itm['Year'], itm['Month'], itm['Day'], itm['Hour'],
         itm['Minute'], itm['Second'],
@@ -24,8 +24,9 @@ def on_item(itm: dict) -> Tuple[str, dict]:
     ).timestamp()
     ts = time.time()
     diff = abs(remote_ts - ts)
-    # TODO proper item and metric names
-    return 'system', {
+    # TODO: proper item and metric names
+    return {
+        'name': 'system',
         'timeDifference': diff
     }
 

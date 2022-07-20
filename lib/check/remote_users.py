@@ -21,9 +21,8 @@ async def check_remote_users(
     rows = await wmiquery(asset, asset_config, check_config, QUERY)
     # TODO proper item and metric names
     return {
-        TYPE_NAME: {
-            'system': {
-                'userCount': len(rows) - 1,
-            }
-        }
+        TYPE_NAME: [{
+            'name': 'system',
+            'userCount': len(rows) - 1,
+        }]
     }
